@@ -8,7 +8,7 @@ LorR(){
                                 hashed=$(echo -n "$password" | sha256sum | awk '{print $1}')
                                 if grep -q "^$name[[:space:]]$hashed" users.tsv; then
                                         echo "Logged in successfully"
-                                        echo $name
+                                        echo "$name"
                                         break 2
                                 else
                                         echo "Password Incorrect"
@@ -37,8 +37,8 @@ LorR(){
                                                 read variable1
                                                 if [[ $variable1 == "y" || $variable1 == "Y" ]]; then
                                                         echo "Logged in successfully"
-                                                        echo $name
-							break 2
+                                                        echo "$name"
+														break 2
                                                 else
                                                         echo "Taking you back to login interface"
                                                 fi
