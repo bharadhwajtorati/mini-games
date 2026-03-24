@@ -1,19 +1,19 @@
 LorR(){
         while true; do
-                read -p "Enter username:" name
-                if grep -q "^$name[[:space:]]" users.tsv; then
-                        echo "Username exists"
+                read -p "Enter username: " name
+                if grep -qe "^$name\>" users.tsv; then
+                        echo "Username exists" >&2
                         while true; do
                                 read -p "Enter password:" password
                                 hashed=$(echo -n "$password" | sha256sum | awk '{print $1}')
                                 if grep -q "^$name[[:space:]]$hashed" users.tsv; then
-                                        echo "Logged in successfully"
-                                        echo "$name"
+                                        echo "Logged in successfully" >&2
+                                        echo $name
+                                        return 0
                                         break 2
                                 else
-                                        echo "Password Incorrect"
-                                        echo "Are you sure you are $name?(y/n)"
-                                        read variable
+                                        echo "Password Incorrect" >&2
+                                        read -p "Are you sure you are $name?(y/n)" variable
                                         if [[ $variable == "y" || $variable == "Y" ]]; then
                                                 continue
                                         else
@@ -22,25 +22,24 @@ LorR(){
                                 fi
                         done
                 else
-                        echo "Username does not exist.Want to try registering?(y/n)"
-                        read variable
+                        read -p "Username does not exist.Want to try registering?(y/n)" variable
                         if [[ $variable == "y" || $variable == "Y" ]]; then
                                 while true; do
                                         read -p "Enter password:" password
                                         read -p "Confirm password:" cpassword
                                         if [[ $password != $cpassword ]]; then
-                                                echo "Passwords do not match.Try again"
+                                                echo "Passwords do not match.Try again" >&2
                                         else
                                                 hashed=$(echo -n "$password" | sha256sum | awk '{print $1}')
                                                 echo -e "$name\t$hashed" >> users.tsv
-                                                echo "Registration successful.Want to login with this credentials?(y/n)"
-                                                read variable1
+                                                read -p "Registration successful.Want to login with this credentials?(y/n)" variable1
                                                 if [[ $variable1 == "y" || $variable1 == "Y" ]]; then
-                                                        echo "Logged in successfully"
-                                                        echo "$name"
-														break 2
+                                                        echo "Logged in successfully" >&2
+                                                        echo $name
+                                                        return 0
+                                                        break 2
                                                 else
-                                                        echo "Taking you back to login interface"
+                                                        echo "Taking you back to login interface" >&2
                                                 fi
                                         fi
                                 done
