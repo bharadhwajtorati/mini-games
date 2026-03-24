@@ -1,8 +1,19 @@
-LorR(){
+#!/bin/bash
+LorR() {
+        ##login or registration function
         while true; do
+                #validating username
                 read -p "Enter username: " name
-                if grep -qe "^$name\>" users.tsv; then
+                if [[ -z "${name// }" ]]; then
+                        echo "Username cannot be empty.Try again." >&2
+                        continue
+                elif [[ "$un1" == "$name" ]]; then
+                        echo "Username already taken by Player1. Please choose a different username." >&2
+                        continue
+                fi
+                if  grep -qe "^$name\>" users.tsv; then
                         echo "Username exists" >&2
+                        #checking password
                         while true; do
                                 read -sp "Enter password:" password
                                 echo "" >&2
@@ -21,6 +32,7 @@ LorR(){
                                         fi
                                 fi
                         done
+                #registration process
                 else
                         read -p "Username does not exist.Want to try registering?(y/n)" variable
                         if [[ $variable == "y" || $variable == "Y" ]]; then
@@ -39,7 +51,6 @@ LorR(){
                                                         echo "Logged in successfully" >&2
                                                         echo $name
                                                         return 0
-                                                        break 2
                                                 else
                                                         echo "Taking you back to login interface" >&2
                                                 fi
@@ -54,6 +65,7 @@ LorR(){
 }
 
 echo "<Player1>"
+un1=""
 un1=$(LorR)
 echo "<Player2>"
 un2=$(LorR)
