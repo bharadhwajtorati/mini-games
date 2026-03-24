@@ -4,14 +4,13 @@ LorR(){
                 if grep -qe "^$name\>" users.tsv; then
                         echo "Username exists" >&2
                         while true; do
-                                read -p "Enter password:" password
+                                read -sp "Enter password:" password
                                 echo "" >&2
                                 hashed=$(echo -n "$password" | sha256sum | awk '{print $1}')
                                 if grep -q "^$name[[:space:]]$hashed" users.tsv; then
                                         echo "Logged in successfully" >&2
                                         echo $name
                                         return 0
-                                        break 2
                                 else
                                         echo "Password Incorrect" >&2
                                         read -p "Are you sure you are $name?(y/n)" variable
@@ -26,9 +25,9 @@ LorR(){
                         read -p "Username does not exist.Want to try registering?(y/n)" variable
                         if [[ $variable == "y" || $variable == "Y" ]]; then
                                 while true; do
-                                        read -p "Enter password:" password
+                                        read -sp "Enter password:" password
                                         echo "" >&2
-                                        read -p "Confirm password:" cpassword
+                                        read -sp "Confirm password:" cpassword
                                         echo "" >&2
                                         if [[ $password != $cpassword ]]; then
                                                 echo "Passwords do not match.Try again" >&2
