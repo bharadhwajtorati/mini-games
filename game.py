@@ -37,3 +37,13 @@ def main():
 if __name__=="__main__":
     main()
 
+class Game:
+    def __init__(self,player1,player2):
+        self.player1=player1
+        self.player2=player2
+        self.turn=player1
+    def switch(self):
+        if self.turn == player1:
+            self.turn = player2
+        else:
+            self.turn = player1
