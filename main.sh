@@ -69,4 +69,4 @@ un1=""
 un1=$(LorR)
 echo "<Player2>"
 un2=$(LorR)
-python3 game.py un1 un2
+python3 game.py $un1 $un2
