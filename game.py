@@ -1,7 +1,22 @@
 import sys
 import numpy as np
+class Game:
+    def __init__(self,player1,player2,n):
+        self.player1=player1
+        self.player2=player2
+        self.turn=player1
+        if n==1:
+            self.board=np.zeros((10,10),dtype=int)
+    def switch(self):
+        if self.turn == self.player1:
+            self.turn = self.player2
+        else:
+            self.turn = self.player1
+            
+
 
 def main():
+    from tic_tac_toe import TicTacToe
     un1= sys.argv[1]
     un2= sys.argv[2]
     print(f"Welcome to The Gaming Hub {un1} and {un2}")
@@ -16,7 +31,9 @@ def main():
 
         if variable == "1" :
             print("Launching Tic-Tac-Toe")
-
+            ttt = TicTacToe(un1, un2, 1)
+            ttt.run()
+            break
         elif variable== "2" :
             print("Launching Othello")
 
@@ -37,13 +54,4 @@ def main():
 if __name__=="__main__":
     main()
 
-class Game:
-    def __init__(self,player1,player2):
-        self.player1=player1
-        self.player2=player2
-        self.turn=player1
-    def switch(self):
-        if self.turn == player1:
-            self.turn = player2
-        else:
-            self.turn = player1
+
