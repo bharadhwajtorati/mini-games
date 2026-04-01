@@ -42,14 +42,14 @@ class Othello(Game):
                     return True
         return False
     def check_win(self):
-        if np.all(self.board != 0) or not self.has_valid_moves():
+        if np.all(self.board != 0):
             player1_count = np.sum(self.board == 1)
             player2_count = np.sum(self.board == 2)
             if player1_count > player2_count:
-                print(f"{self.player1} wins")
+                print(f"{self.player1} wins!")
                 return 1
             elif player2_count > player1_count:
-                print(f"{self.player2} wins")
+                print(f"{self.player2} wins!")
                 return 2
             else:
                 print("It's a tie!")
@@ -116,22 +116,26 @@ class Othello(Game):
                         pygame.display.update()
                         self.switch()
                         if not self.has_valid_moves():
-                            print(f"{self.turn} has no valid moves. Skipping turn.")
+                            print(f"{self.turn} has no valid moves. Skipping turn")
                             self.switch()
                             if not self.has_valid_moves():
-                                print("No valid moves for both players. Ending game.")
-                                u=self.check_win()
-                                if u!=-1:
-                                    if u == 1:
-                                        winner = 1
-                                    elif u == 2:
-                                        winner = 2
-                                    else:
-                                        winner = 0
-                                    pygame.display.update()
-                                    pygame.time.wait(3000)
-                                    running = False
-                                    return winner
+                                print("No valid moves for both players. Ending game")
+                                p1count = np.sum(self.board == 1)
+                                p2count = np.sum(self.board == 2)
+                                if p1count > p2count:
+                                    print(f"{self.player1} wins!")
+                                    winner = 1
+                                elif p2count > p1count:
+                                    print(f"{self.player2} wins!")
+                                    winner = 2
+                                else:
+                                    print("It's a tie!")
+                                    winner = 0
+                                pygame.display.update()
+                                pygame.time.wait(3000)
+                                running = False
+                                return winner
+                            
                     
         
         
