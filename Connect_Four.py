@@ -84,7 +84,7 @@ class ConnectFour(Game):
                 self.board[row, col] = 2
                     
         board= pygame.image.load("connect four board.png")
-       
+        winner = 0   
         draw_board()
         running = True
         turn = 1
@@ -92,6 +92,7 @@ class ConnectFour(Game):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    break
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x,y= pygame.mouse.get_pos()
                     button = event.button
@@ -109,7 +110,8 @@ class ConnectFour(Game):
                                 running = False
                                 pygame.display.update()
                                 pygame.time.wait(3000)
-                            turn = 2
+                                winner = 1
+                            turn = 2 
                         else:
                             row = 6
                             while self.board[row, col] != 0:
@@ -120,7 +122,16 @@ class ConnectFour(Game):
                                 running = False
                                 pygame.display.update()
                                 pygame.time.wait(3000)
+                                winner = 2
                             turn = 1
+                            
             pygame.display.update()
+            if not np.any(self.board == 0):
+                print("It's a draw!")
+                pygame.time.wait(3000)
+                winner = 0
+        pygame.quit()    
+        return winner
+    
 if __name__=="__main__":
     ConnectFour("Player1","Player2",2).run()   

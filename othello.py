@@ -80,6 +80,8 @@ class Othello(Game):
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     running= False
+                    break 
+                
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     x,y= pygame.mouse.get_pos()
                     row=y//100
@@ -112,7 +114,7 @@ class Othello(Game):
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
-                            return winner
+                            break
                         pygame.display.update()
                         self.switch()
                         if not self.has_valid_moves():
@@ -134,7 +136,9 @@ class Othello(Game):
                                 pygame.display.update()
                                 pygame.time.wait(3000)
                                 running = False
-                                return winner
+                                break
+        pygame.quit()
+        return winner
                             
                     
         

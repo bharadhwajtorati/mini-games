@@ -52,7 +52,7 @@ class TicTacToe(Game):
         
         running = True
         turn = 1
-        
+        winner = 0 
         while running:
             for event in pygame.event.get():
                 
@@ -84,7 +84,8 @@ class TicTacToe(Game):
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
-                        break 
+                            winner = 1
+                        break
                     else:
                         draw_o(x//80*80+40, y//80*80+40)
                         turn = 1
@@ -102,10 +103,19 @@ class TicTacToe(Game):
                                 pygame.draw.line(screen, (0, 0, 255), ((x//80-X[2])*80+40, (y//80+X[2])*80+40), ((x//80+X[3])*80+40, (y//80-X[3])*80+40), 20)
                             pygame.display.update()
                             pygame.time.wait(3000)
-                            running = False
-                        break 
+                            running=False
+                            winner = 2
+                        break
                 
             pygame.display.update()
+            if not np.any(self.board == 0):
+                print("It's a draw!")
+                pygame.time.wait(3000)
+                running = False 
+                winner = 0
+        pygame.quit()        
+        return winner
+    
 if __name__ == "__main__":
     ttt = TicTacToe("Player 1", "Player 2", 1)
     ttt.run()
