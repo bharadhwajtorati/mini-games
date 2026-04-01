@@ -35,8 +35,8 @@ class TicTacToe(Game):
         
         screen = pygame.display.set_mode((800, 800))
         screen.fill((255, 255, 255))
-        icon= pygame.image.load("tic-tac-toe.png")
-        pygame.display.set_icon(icon)
+        # icon= pygame.image.load("tic-tac-toe.png")
+        # pygame.display.set_icon(icon)
         pygame.display.set_caption("Tic-Tac-Toe")
         for i in range(1,10):
             pygame.draw.line(screen, (0, 0, 0), (i*80, 0), (i*80, 800), 5)
@@ -74,13 +74,13 @@ class TicTacToe(Game):
                         if X[0]:
                             print(f"{self.player1} wins!")
                             if(X[1] == "E"):
-                                pygame.draw.line(screen, (255, 0, 0), ((x//80+X[2])*80+40, y//80*80+40), ((x//80-X[3])*80+40, y//80*80+40), 15)
+                                pygame.draw.line(screen, (255, 0, 0), ((x//80+X[2])*80+40, y//80*80+40), ((x//80-X[3])*80+40, y//80*80+40), 20)
                             elif(X[1] == "S"):
-                                pygame.draw.line(screen, (255, 0, 0), (x//80*80+40, (y//80+X[2])*80+40), (x//80*80+40, (y//80-X[3])*80+40), 15)
+                                pygame.draw.line(screen, (255, 0, 0), (x//80*80+40, (y//80+X[2])*80+40), (x//80*80+40, (y//80-X[3])*80+40), 20)
                             elif(X[1] == "SE"):
-                                pygame.draw.line(screen, (255, 0, 0), ((x//80+X[2])*80+40, (y//80+X[2])*80+40), ((x//80-X[3])*80+40, (y//80-X[3])*80+40), 15)
+                                pygame.draw.line(screen, (255, 0, 0), ((x//80+X[2])*80+40, (y//80+X[2])*80+40), ((x//80-X[3])*80+40, (y//80-X[3])*80+40), 20)
                             elif(X[1] == "SW"):
-                                pygame.draw.line(screen, (255, 0, 0), ((x//80-X[2])*80+40, (y//80+X[2])*80+40), ((x//80+X[3])*80+40, (y//80-X[3])*80+40), 15)
+                                pygame.draw.line(screen, (255, 0, 0), ((x//80-X[2])*80+40, (y//80+X[2])*80+40), ((x//80+X[3])*80+40, (y//80-X[3])*80+40), 20)
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
@@ -93,13 +93,13 @@ class TicTacToe(Game):
                         if X[0]:
                             print(f"{self.player2} wins!")
                             if(X[1] == "E"):
-                                pygame.draw.line(screen, (0, 0, 255), ((x//80+X[2])*80+40, y//80*80+40), ((x//80-X[3])*80+40, y//80*80+40), 15)
+                                pygame.draw.line(screen, (0, 0, 255), ((x//80+X[2])*80+40, y//80*80+40), ((x//80-X[3])*80+40, y//80*80+40), 20)
                             elif(X[1] == "S"):
-                                pygame.draw.line(screen, (0, 0, 255), (x//80*80+40, (y//80+X[2])*80+40), (x//80*80+40, (y//80-X[3])*80+40), 15) 
+                                pygame.draw.line(screen, (0, 0, 255), (x//80*80+40, (y//80+X[2])*80+40), (x//80*80+40, (y//80-X[3])*80+40), 20) 
                             elif(X[1] == "SE"): 
-                                pygame.draw.line(screen, (0, 0, 255), ((x//80+X[2])*80+40, (y//80+X[2])*80+40), ((x//80-X[3])*80+40, (y//80-X[3])*80+40), 15)
+                                pygame.draw.line(screen, (0, 0, 255), ((x//80+X[2])*80+40, (y//80+X[2])*80+40), ((x//80-X[3])*80+40, (y//80-X[3])*80+40), 20)
                             elif(X[1] == "SW"):
-                                pygame.draw.line(screen, (0, 0, 255), ((x//80-X[2])*80+40, (y//80+X[2])*80+40), ((x//80+X[3])*80+40, (y//80-X[3])*80+40), 15)
+                                pygame.draw.line(screen, (0, 0, 255), ((x//80-X[2])*80+40, (y//80+X[2])*80+40), ((x//80+X[3])*80+40, (y//80-X[3])*80+40), 20)
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
