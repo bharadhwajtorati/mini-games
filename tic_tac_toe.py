@@ -35,8 +35,8 @@ class TicTacToe(Game):
         
         screen = pygame.display.set_mode((800, 800))
         screen.fill((255, 255, 255))
-        # icon= pygame.image.load("tic-tac-toe.png")
-        # pygame.display.set_icon(icon)
+        icon= pygame.image.load("tic-tac-toe.png")
+        pygame.display.set_icon(icon)
         pygame.display.set_caption("Tic-Tac-Toe")
         for i in range(1,10):
             pygame.draw.line(screen, (0, 0, 0), (i*80, 0), (i*80, 800), 5)

@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+
 class Game:
     def __init__(self,player1,player2,n):
         self.player1=player1
@@ -7,16 +8,12 @@ class Game:
         self.turn=player1
         if n==1:
             self.board=np.zeros((10,10),dtype=int)
-    def switch(self):
-        if self.turn == self.player1:
-            self.turn = self.player2
-        else:
-            self.turn = self.player1
+        elif n==2:
+            self.board=np.zeros((7,7),dtype=int)
             
-
-
 def main():
     from tic_tac_toe import TicTacToe
+    from Connect_Four import ConnectFour
     un1= sys.argv[1]
     un2= sys.argv[2]
     print(f"Welcome to The Gaming Hub {un1} and {un2}")
@@ -36,7 +33,9 @@ def main():
             break
         elif variable== "2" :
             print("Launching Othello")
-
+            CF = ConnectFour(un1, un2, 1)
+            CF.run()
+            break
         elif variable== "3" :
             print("Launching Connecct4")
           
