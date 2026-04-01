@@ -42,7 +42,7 @@ class Othello(Game):
                     return True
         return False
     def check_win(self):
-        if np.all(self.board != 0):
+        if np.all(self.board != 0) or not self.has_valid_moves():
             player1_count = np.sum(self.board == 1)
             player2_count = np.sum(self.board == 2)
             if player1_count > player2_count:
@@ -132,8 +132,6 @@ class Othello(Game):
                                     pygame.time.wait(3000)
                                     running = False
                                     return winner
-                            else:
-                                self.switch()
                     
         
         
