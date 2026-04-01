@@ -35,6 +35,12 @@ class Othello(Game):
             if 0<= r < 8 and 0 <= c < 8 and self.board[r][c] == (1 if self.turn == self.player1 else 2):
                 for rr, cc in discs_to_flip:
                     self.board[rr][cc] = 1 if self.turn == self.player1 else 2
+    def has_valid_moves(self):
+        for row in range(8):
+            for col in range(8):
+                if self.validate_move(row, col):
+                    return True
+        return False
     def check_win(self):
         if np.all(self.board != 0):
             player1_count = np.sum(self.board == 1)
@@ -69,6 +75,7 @@ class Othello(Game):
                     screen.blit(white_disc,(j*100,i*100))
         pygame.display.update()
         running=True
+        winner=-1
         while running:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
@@ -94,11 +101,39 @@ class Othello(Game):
                                     screen.blit(black_disc,(j*100,i*100))
                                 elif self.board[i][j]==2:
                                     screen.blit(white_disc,(j*100,i*100))
-                        if self.check_win() != -1:
+                        u=self.check_win()
+                        if u!=-1:
+                            if u == 1:
+                                winner = 1
+                            elif u == 2:
+                                winner = 2
+                            else:
+                                winner = 0
+                            pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
+                            return winner
                         pygame.display.update()
                         self.switch()
+                        if not self.has_valid_moves():
+                            print(f"{self.turn} has no valid moves. Skipping turn.")
+                            self.switch()
+                            if not self.has_valid_moves():
+                                print("No valid moves for both players. Ending game.")
+                                u=self.check_win()
+                                if u!=-1:
+                                    if u == 1:
+                                        winner = 1
+                                    elif u == 2:
+                                        winner = 2
+                                    else:
+                                        winner = 0
+                                    pygame.display.update()
+                                    pygame.time.wait(3000)
+                                    running = False
+                                    return winner
+                            else:
+                                self.switch()
                     
         
         
