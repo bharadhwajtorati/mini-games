@@ -84,6 +84,8 @@ class Othello(Game):
                 
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     x,y= pygame.mouse.get_pos()
+                    if event.button != 1:
+                        continue
                     row=y//100
                     col=x//100
                     if self.turn==self.player1:
