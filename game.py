@@ -224,15 +224,18 @@ def main():
         file.close()
         top5_players = list(sorted(wins.keys(), key=lambda x: wins[x], reverse=True))[:5]
         top5_wins = [wins[player] for player in top5_players]
+        plt.subplot(1,2,1)
         plt.bar(top5_players, top5_wins)
         plt.xlabel("Players")
         plt.ylabel("Number of Wins")
         plt.title("Top 5 Players by Wins")
-        plt.show()
+        plt.subplot(1,2,2)
         x_labels=list(counts.keys())
         y_values=list(counts.values())
         plt.pie(y_values, labels=x_labels, autopct='%1.1f%%')
         plt.title("Distribution of Games Played")
+        plt.suptitle("Plots of Wins and Game distribution")
+        plt.tight_layout()
         plt.show()
         if input("do you want to play again(y/n)").lower() == "y" :
             continue
