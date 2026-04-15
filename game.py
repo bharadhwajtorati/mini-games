@@ -181,7 +181,7 @@ def main():
             elif winner == 2:
                 record_results(un2,un1,"Connect_Four")
             sort_option=stats((un1 if winner == 1 else un2))
-            os.system(f"bash leaderboard.sh 1 {sort_option}")
+            os.system(f"bash leaderboard.sh 2 {sort_option}")
             
         elif variable== 3 :
             print("Launching Othello")
@@ -193,7 +193,7 @@ def main():
                 record_results(un2,un1,"Othello")
             
             sort_option=stats((un1 if winner == 1 else un2))
-            os.system(f"bash leaderboard.sh 1 {sort_option}")
+            os.system(f"bash leaderboard.sh  {sort_option}")
             
         elif variable== 4 :
             variable1=input("Are you sure you want to quit?(y/n)\n")
