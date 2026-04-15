@@ -4,6 +4,7 @@ import numpy as np
 import csv
 from datetime import datetime
 import os
+from matplotlib import pyplot as plt
 
 class Game:
     def __init__(self,player1,player2,n):
@@ -193,7 +194,7 @@ def main():
                 record_results(un2,un1,"Othello")
             
             sort_option=stats((un1 if winner == 1 else un2))
-            os.system(f"bash leaderboard.sh  {sort_option}")
+            os.system(f"bash leaderboard.sh 3 {sort_option}")
             
         elif variable== 4 :
             variable1=input("Are you sure you want to quit?(y/n)\n")
@@ -207,6 +208,8 @@ def main():
         counts={"TicTacToe":0,"Connect_Four":0,"Othello":0}
         for line in file:
             split=line.strip().split(",")
+            winner=split[0]
+            wins[winner] = wins.get(winner, 0) + 1
             if split[3]=="TicTacToe":
                 counts[split[3]] += 1
             elif split[3]=="Connect_Four":
@@ -214,9 +217,17 @@ def main():
             elif split[3]=="Othello":
                 counts[split[3]] += 1
         file.close()
+        top5_players = list(sorted(wins.keys(), key=lambda x: wins[x], reverse=True))[:5]
+        top5_wins = [wins[player] for player in top5_players]
+        plt.bar(top5_players, top5_wins)
+        plt.xlabel("Players")
+        plt.ylabel("Number of Wins")
+        plt.title("Top 5 Players by Wins")
+        plt.show()
         x_labels=list(counts.keys())
         y_values=list(counts.values())
         plt.pie(y_values, labels=x_labels, autopct='%1.1f%%')
+        plt.title("Distribution of Games Played")
         plt.show()
         if input("do you want to play again(y/n)").lower() == "y" :
             continue
@@ -226,5 +237,3 @@ def main():
                  
 if __name__=="__main__":
     main()
-
-
