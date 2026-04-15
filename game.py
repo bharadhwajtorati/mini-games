@@ -203,6 +203,21 @@ def main():
             else:
                 print("Try again")
                 continue
+        file=open("history.csv","r")
+        counts={"TicTacToe":0,"Connect_Four":0,"Othello":0}
+        for line in file:
+            split=line.strip().split(",")
+            if split[3]=="TicTacToe":
+                counts[split[3]] += 1
+            elif split[3]=="Connect_Four":
+                counts[split[3]] += 1
+            elif split[3]=="Othello":
+                counts[split[3]] += 1
+        file.close()
+        x_labels=list(counts.keys())
+        y_values=list(counts.values())
+        plt.pie(y_values, labels=x_labels, autopct='%1.1f%%')
+        plt.show()
         if input("do you want to play again(y/n)").lower() == "y" :
             continue
         else:
