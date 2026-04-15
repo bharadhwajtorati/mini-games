@@ -53,7 +53,7 @@ class Othello(Game):
                 return 2
             else:
                 print("It's a tie!")
-                return 0
+                return 3
         return -1
     def run(self):
         pygame.init()
@@ -112,7 +112,7 @@ class Othello(Game):
                             elif u == 2:
                                 winner = 2
                             else:
-                                winner = 0
+                                winner = 3
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
@@ -134,7 +134,7 @@ class Othello(Game):
                                     winner = 2
                                 else:
                                     print("It's a tie!")
-                                    winner = 0
+                                    winner = 3
                                 pygame.display.update()
                                 pygame.time.wait(3000)
                                 running = False
