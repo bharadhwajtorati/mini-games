@@ -129,7 +129,7 @@ class ConnectFour(Game):
             if not np.any(self.board == 0):
                 print("It's a draw!")
                 pygame.time.wait(3000)
-                winner = 0
+                winner = 3
         pygame.quit()    
         return winner
     

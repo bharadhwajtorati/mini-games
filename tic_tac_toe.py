@@ -112,7 +112,7 @@ class TicTacToe(Game):
                 print("It's a draw!")
                 pygame.time.wait(3000)
                 running = False 
-                winner = 0
+                winner = 3
         pygame.quit()        
         return winner
     

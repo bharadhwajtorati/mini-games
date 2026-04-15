@@ -42,26 +42,30 @@ def interface():
     
     menu=pygame.display.set_mode((1000,900))
     pygame.display.set_caption("Mini-Games")
-    menu.fill((135,206,255))
-    
+    background_image=pygame.image.load("background.png")
+    background_image=pygame.transform.scale(background_image,(1000,900))
+    menu.blit(background_image, (0, 0))
         
     tic_tac_toe_icon=pygame.image.load("tic-tac-toe_big.png")
-    menu.blit(tic_tac_toe_icon,(50,500))
-    write(menu,"Tic-Tac-Toe",74,770)
-    
+    tic_tac_toe_icon=pygame.transform.smoothscale(tic_tac_toe_icon,(290,290))
+    menu.blit(tic_tac_toe_icon,(32,475))
+    write(menu,"Tic-Tac-Toe",74,770,colour=(255,255,51),font_size=50)
+
     connect_four_icon=pygame.image.load("connect-four_big.png")
-    menu.blit(connect_four_icon,(400,500))
-    write(menu,"Connect-Four",425,772)
+    connect_four_icon=pygame.transform.smoothscale(connect_four_icon,(290,290))
+    menu.blit(connect_four_icon,(355,475))
+    write(menu,"Connect-Four",385,770,colour=(255,255,51),font_size=50)
 
     othello_icon=pygame.image.load("othello_big.png")
     othello_icon=pygame.transform.smoothscale(othello_icon,(290,290))
-    write(menu,"Othello",805,770)
+    write(menu,"Othello",770,770,colour=(255,255,51),font_size=50)
 
     mini_game_bigicon=pygame.image.load("game_big.png")
-    menu.blit(mini_game_bigicon,(255,100))
-    write(menu,"Mini-Games",380,130,font_size=100)
+    mini_game_bigicon.set_colorkey((0,0,0))
+    mini_game_bigicon=pygame.transform.smoothscale(mini_game_bigicon,(750,300))
+    menu.blit(mini_game_bigicon,(145,100))
     
-    menu.blit(othello_icon,(720,490))
+    menu.blit(othello_icon,(678,475))
     
     mini_game_icon=pygame.image.load("game.png")
     pygame.display.set_icon(mini_game_icon)
@@ -82,16 +86,16 @@ def interface():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     x,y= event.pos
-                    if(y>=400 and y<=700):
-                        if(50<=x<=300):
+                    if(y>=475 and y<=475+290):
+                        if(32<=x<=322):
                             game = 1
                             running=False
                             break
-                        elif( 400 <= x <= 660 ):
+                        elif(355<=x<=645):
                             game=2
                             running=False
                             break
-                        elif(740<=x<=990):
+                        elif(678<=x<=968):
                             game=3
                             running=False
                             break
@@ -169,7 +173,7 @@ def main():
             elif winner == 2:
                 record_results(un2,un1,"TicTacToe")
             
-            sort_option=stats((un1 if winner == 1 else un2))
+            sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
             os.system(f"bash leaderboard.sh 1 {sort_option}")
             
         elif variable== 2 :
@@ -180,7 +184,7 @@ def main():
                 record_results(un1,un2,"Connect_Four")
             elif winner == 2:
                 record_results(un2,un1,"Connect_Four")
-            sort_option=stats((un1 if winner == 1 else un2))
+            sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
             os.system(f"bash leaderboard.sh 2 {sort_option}")
             
         elif variable== 3 :
@@ -192,8 +196,8 @@ def main():
             elif winner == 2:
                 record_results(un2,un1,"Othello")
             
-            sort_option=stats((un1 if winner == 1 else un2))
-            os.system(f"bash leaderboard.sh  {sort_option}")
+            sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
+            os.system(f"bash leaderboard.sh 3 {sort_option}")
             
         elif variable== 4 :
             variable1=input("Are you sure you want to quit?(y/n)\n")
