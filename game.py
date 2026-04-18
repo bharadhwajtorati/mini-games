@@ -222,6 +222,7 @@ def main():
         file.close()
         top5_players = list(sorted(wins.keys(), key=lambda x: wins[x], reverse=True))[:5]
         top5_wins = [wins[player] for player in top5_players]
+        plt.figure(figsize=(12, 6))
         plt.subplot(1,2,1)
         plt.bar(top5_players, top5_wins)
         plt.xlabel("Players")
@@ -230,7 +231,7 @@ def main():
         plt.subplot(1,2,2)
         x_labels=list(counts.keys())
         y_values=list(counts.values())
-        plt.pie(y_values, labels=x_labels, autopct='%1.1f%%')
+        plt.pie(y_values, labels=x_labels,autopct='%2.1f%%')
         plt.title("Distribution of Games Played")
         plt.suptitle("Plots of Wins and Game distribution")
         plt.tight_layout()

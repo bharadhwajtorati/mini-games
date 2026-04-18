@@ -60,7 +60,7 @@ class ConnectFour(Game):
             screen.blit(player2img,(x,y))
         def drop_greenball(x,y):
                 X=8+x*108
-                Y=78
+                Y=77
                 for i in range(49):
                     screen.fill((0,0,0))
                     greenball(X,Y)
@@ -72,7 +72,7 @@ class ConnectFour(Game):
                 self.board[row, col] = 1
         def drop_blueball(x, y):
                 X=8+x*108
-                Y=78
+                Y=77
                 for i in range(49):
                     screen.fill((0,0,0))
                     blueball(X,Y)
