@@ -40,9 +40,9 @@ class ConnectFour(Game):
         pygame.display.set_caption("Connect Four")
         
         player1img= pygame.image.load("greenball.png")
-        player1img = pygame.transform.scale(player1img, (140, 140))
+        player1img = pygame.transform.scale(player1img, (133, 133))
         player2img= pygame.image.load("blueball.png")
-        player2img = pygame.transform.scale(player2img, (140, 140))
+        player2img = pygame.transform.scale(player2img, (133, 133))
         
         def draw_board():
             screen.blit(board, (-110, 60))
@@ -50,17 +50,17 @@ class ConnectFour(Game):
             for i in range(7):
                 for j in range(7):
                     if self.board[i, j] == 1:
-                        greenball(8+j*108,96*i+192)
+                        greenball(14+j*107,96*i+187)
                     elif self.board[i, j] == 2:
-                        blueball(8+j*108,96*i+192)
+                        blueball(14+j*107,96*i+187)
       
         def greenball(x,y):
             screen.blit(player1img,(x,y))
         def blueball(x,y):
             screen.blit(player2img,(x,y))
         def drop_greenball(x,y):
-                X=8+x*108
-                Y=77
+                X=14+x*107
+                Y=72
                 for i in range(49):
                     screen.fill((0,0,0))
                     greenball(X,Y)
@@ -71,8 +71,8 @@ class ConnectFour(Game):
                     Y+=2.375+2*y
                 self.board[row, col] = 1
         def drop_blueball(x, y):
-                X=8+x*108
-                Y=77
+                X=14+x*107
+                Y=72
                 for i in range(49):
                     screen.fill((0,0,0))
                     blueball(X,Y)
@@ -83,7 +83,7 @@ class ConnectFour(Game):
                     Y+=2.375+2*y
                 self.board[row, col] = 2
                     
-        board= pygame.image.load("connect four board.png")
+        board= pygame.image.load("CF_board.png")
         winner = 0   
         draw_board()
         running = True
