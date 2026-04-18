@@ -26,7 +26,6 @@ class Game:
             self.turn=self.player2
         else:
             self.turn = self.player1
-
         
 def record_results(un1,un2,gamename):
     with open("history.csv", "a", newline="") as f:
@@ -83,7 +82,6 @@ def interface():
                 game = 4
                 print("Quitting menu")
                 break
-            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     x,y= event.pos

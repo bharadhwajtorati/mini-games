@@ -34,15 +34,15 @@ class ConnectFour(Game):
         pygame.init()
         
         screen = pygame.display.set_mode((800, 900))
-        screen.fill((255, 255, 255))
+        screen.fill((0,0,0))
         icon= pygame.image.load("connect-four.png")
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Connect Four")
         
-        player1img= pygame.image.load("redball.png")
-        player1img = pygame.transform.scale(player1img, (80, 80))
+        player1img= pygame.image.load("greenball.png")
+        player1img = pygame.transform.scale(player1img, (140, 140))
         player2img= pygame.image.load("blueball.png")
-        player2img = pygame.transform.scale(player2img, (135, 135))
+        player2img = pygame.transform.scale(player2img, (140, 140))
         
         def draw_board():
             screen.blit(board, (-110, 60))
@@ -50,31 +50,31 @@ class ConnectFour(Game):
             for i in range(7):
                 for j in range(7):
                     if self.board[i, j] == 1:
-                        redball(39+j*108,96*i+217)
+                        greenball(8+j*108,96*i+192)
                     elif self.board[i, j] == 2:
-                        blueball(12+j*108,96*i+192)
+                        blueball(8+j*108,96*i+192)
       
-        def redball(x,y):
+        def greenball(x,y):
             screen.blit(player1img,(x,y))
         def blueball(x,y):
             screen.blit(player2img,(x,y))
-        def drop_redball(x,y):
-                X=39+x*108
-                Y=100
+        def drop_greenball(x,y):
+                X=8+x*108
+                Y=78
                 for i in range(49):
-                    screen.fill((255, 255, 255))
-                    redball(X,Y)
+                    screen.fill((0,0,0))
+                    greenball(X,Y)
                     draw_board()
                     draw_balls()
                     pygame.display.update()
                     pygame.time.wait(1)
-                    Y+=2.4375+2*y
+                    Y+=2.375+2*y
                 self.board[row, col] = 1
         def drop_blueball(x, y):
-                X=12+x*108
+                X=8+x*108
                 Y=78
                 for i in range(49):
-                    screen.fill((255, 255, 255))
+                    screen.fill((0,0,0))
                     blueball(X,Y)
                     draw_board()
                     draw_balls()
@@ -104,7 +104,7 @@ class ConnectFour(Game):
                             row = 6
                             while self.board[row, col] != 0:
                                 row -= 1
-                            drop_redball(col, row)
+                            drop_greenball(col, row)
                             if self.check_win(row, col)[0]:
                                 print(f"{self.player1} wins!")
                                 running = False

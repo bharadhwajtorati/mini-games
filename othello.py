@@ -141,7 +141,7 @@ class Othello(Game):
                                 break
         pygame.quit()
         return winner
-                            
+                        
                     
         
         
