@@ -39,35 +39,25 @@ def write(screen,str, x, y, colour=(0,0,0), font_size=50, font=None):
         
 def interface():
     pygame.init()
-    
     menu=pygame.display.set_mode((1000,900))
     pygame.display.set_caption("Mini-Games")
-    background_image=pygame.image.load("background.png")
+    background_image=pygame.image.load("background.png").convert_alpha()
     background_image=pygame.transform.scale(background_image,(1000,900))
-    menu.blit(background_image, (0, 0))
-        
-    tic_tac_toe_icon=pygame.image.load("tic-tac-toe_big.png")
+    tic_tac_toe_icon=pygame.image.load("tic-tac-toe_big.png").convert_alpha()
     tic_tac_toe_icon=pygame.transform.smoothscale(tic_tac_toe_icon,(290,290))
-    menu.blit(tic_tac_toe_icon,(32,475))
-    write(menu,"Tic-Tac-Toe",74,770,colour=(255,255,51),font_size=50)
-
-    connect_four_icon=pygame.image.load("connect-four_big.png")
+    ttt_rect = tic_tac_toe_icon.get_rect(topleft=(32,475))
+    connect_four_icon=pygame.image.load("connect-four_big.png").convert_alpha()
     connect_four_icon=pygame.transform.smoothscale(connect_four_icon,(290,290))
-    menu.blit(connect_four_icon,(355,475))
-    write(menu,"Connect-Four",385,770,colour=(255,255,51),font_size=50)
-
-    othello_icon=pygame.image.load("othello_big.png")
+    cf_rect = connect_four_icon.get_rect(topleft=(355,475))
+    othello_icon=pygame.image.load("othello_big.png").convert_alpha()
     othello_icon=pygame.transform.smoothscale(othello_icon,(290,290))
-    write(menu,"Othello",770,770,colour=(255,255,51),font_size=50)
-
-    mini_game_bigicon=pygame.image.load("game_big.png")
-    mini_game_bigicon.set_colorkey((0,0,0))
+    othello_rect = othello_icon.get_rect(topleft=(678,475))
+    mini_game_bigicon=pygame.image.load("game_big.png").convert_alpha()
     mini_game_bigicon=pygame.transform.smoothscale(mini_game_bigicon,(750,300))
-    menu.blit(mini_game_bigicon,(145,100))
+    mini_game_bigicon.set_colorkey((0,0,0))
     
-    menu.blit(othello_icon,(678,475))
     
-    mini_game_icon=pygame.image.load("game.png")
+    mini_game_icon=pygame.image.load("game.png").convert_alpha()
     pygame.display.set_icon(mini_game_icon)
     
     pygame.display.update()
@@ -75,29 +65,47 @@ def interface():
     running  = True
     game=0
     while running:
+        menu.blit(background_image, (0, 0))
+        menu.blit(mini_game_bigicon,(145,30))
+        Mpos=pygame.mouse.get_pos()
+        if ttt_rect.collidepoint(Mpos):
+            menu.blit(pygame.transform.smoothscale(tic_tac_toe_icon,(300,300)),(27,470))
+        else:
+            menu.blit(tic_tac_toe_icon,(32,475))
+        write(menu,"Tic-Tac-Toe",74,770,colour=(255,255,51),font_size=50)
+        if cf_rect.collidepoint(Mpos):
+            menu.blit(pygame.transform.smoothscale(connect_four_icon,(300,300)),(350,470))
+        else:
+            menu.blit(connect_four_icon,(355,475))
+        write(menu,"Connect-Four",385,770,colour=(255,255,51),font_size=50)
+        if othello_rect.collidepoint(Mpos):
+            menu.blit(pygame.transform.smoothscale(othello_icon,(300,300)),(673,470))
+        else:
+            menu.blit(othello_icon,(678,475))
+        write(menu,"Othello",770,770,colour=(255,255,51),font_size=50)
+        pygame.display.update()
         for event in pygame.event.get():
-        
             if event.type == pygame.QUIT:
                 running = False
                 game = 4
                 print("Quitting menu")
                 break
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    x,y= event.pos
-                    if(y>=475 and y<=475+290):
-                        if(32<=x<=322):
-                            game = 1
-                            running=False
-                            break
-                        elif(355<=x<=645):
-                            game=2
-                            running=False
-                            break
-                        elif(678<=x<=968):
-                            game=3
-                            running=False
-                            break
+                    if event.button == 1:
+                        x,y= event.pos
+                        if(y>=475 and y<=475+290):
+                            if(32<=x<=322):
+                                game = 1
+                                running=False
+                                break
+                            elif(355<=x<=645):
+                                game=2
+                                running=False
+                                break
+                            elif(678<=x<=968):
+                                game=3
+                                running=False
+                                break
     pygame.quit()
     return game   
 
