@@ -83,7 +83,6 @@ class Othello(Game):
             if self.validate_move(yy,xx):
                 self.board[yy][xx]=4
                 pygame.draw.circle(screen,(180,255,180),(xx*100+50,yy*100+50),40,3)
-            pygame.display.update()
             for i in range(8):
                 for j in range(8):
                     if self.board[i][j]==1:
@@ -95,8 +94,7 @@ class Othello(Game):
                         self.board[i][j]=0
                     elif self.board[i][j]==4:
                         self.board[i][j]=0
-            
-            
+            pygame.display.update()
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     running= False
