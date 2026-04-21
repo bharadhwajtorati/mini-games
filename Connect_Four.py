@@ -64,8 +64,9 @@ class ConnectFour(Game):
                 for i in range(49):
                     screen.fill((0,0,0))
                     greenball(X,Y)
-                    draw_board()
                     draw_balls()
+                    draw_board()
+    
                     pygame.display.update()
                     pygame.time.wait(1)
                     Y+=2.375+2*y
@@ -76,8 +77,8 @@ class ConnectFour(Game):
                 for i in range(49):
                     screen.fill((0,0,0))
                     blueball(X,Y)
-                    draw_board()
                     draw_balls()
+                    draw_board()
                     pygame.display.update()
                     pygame.time.wait(1)
                     Y+=2.375+2*y
