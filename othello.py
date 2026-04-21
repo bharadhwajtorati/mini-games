@@ -2,8 +2,16 @@ import numpy as np
 from game import Game
 import pygame
 class Othello(Game):
+    def valid_moves_show(self):
+        valid_moves = []
+        for row in range(8):
+            for col in range(8):
+                if self.validate_move(row, col):
+                    valid_moves.append((row, col))
+        for row, col in valid_moves:
+            self.board[row][col] = 3
     def validate_move(self, row, col):
-        if self.board[row][col] != 0:
+        if self.board[row][col] == 1 or self.board[row][col] == 2:
             return False
         opponent = 2 if self.turn == self.player1 else 1
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
@@ -59,33 +67,32 @@ class Othello(Game):
         pygame.init()
         screen = pygame.display.set_mode((800,800))
         pygame.display.set_caption("Othello")
-        screen.fill((0,128,0))
-        for i in range(1,8):
-            pygame.draw.line(screen,(0,0,0),(i*100,0),(i*100,800),3)
-            pygame.draw.line(screen,(0,0,0),(0,i*100),(800,i*100),3)
+        back = pygame.image.load("back_othello.jpeg")
+        background= pygame.transform.scale(back,(800,800))
         black_disc= pygame.image.load("blackdisc.png")
         white_disc= pygame.image.load("white disc.png")
         black_disc= pygame.transform.scale(black_disc,(100,100))
         white_disc= pygame.transform.scale(white_disc,(100,100))
-        for i in range(3,5):
-            for j in range(3,5):
-                if self.board[i][j]==1:
-                    screen.blit(black_disc,(j*100,i*100))
-                elif self.board[i][j]==2:
-                    screen.blit(white_disc,(j*100,i*100))
-        pygame.display.update()
         running=True
         winner=-1
         while running:
+            screen.blit(background,(0,0))
+            self.valid_moves_show()
+            for i in range(8):
+                for j in range(8):
+                    if self.board[i][j]==1:
+                        screen.blit(black_disc,(j*100,i*100))
+                    elif self.board[i][j]==2:
+                        screen.blit(white_disc,(j*100,i*100))
+                    elif self.board[i][j]==3:
+                        pygame.draw.circle(screen,(0,255,255),(j*100+50,i*100+50),35,2)
+                        self.board[i][j]=0
+            pygame.display.update()
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     running= False
-                    break 
-                
                 if event.type==pygame.MOUSEBUTTONDOWN:
                     x,y= pygame.mouse.get_pos()
-                    if event.button != 1:
-                        continue
                     row=y//100
                     col=x//100
                     if self.turn==self.player1:
@@ -105,6 +112,9 @@ class Othello(Game):
                                     screen.blit(black_disc,(j*100,i*100))
                                 elif self.board[i][j]==2:
                                     screen.blit(white_disc,(j*100,i*100))
+                                elif self.board[i][j]==3:
+                                    pygame.draw.circle(screen,(0,255,255),(j*100+50,i*100+50),35,2)
+                                    self.board[i][j]=0
                         u=self.check_win()
                         if u!=-1:
                             if u == 1:
@@ -116,7 +126,7 @@ class Othello(Game):
                             pygame.display.update()
                             pygame.time.wait(3000)
                             running = False
-                            break
+                            return winner
                         pygame.display.update()
                         self.switch()
                         if not self.has_valid_moves():
@@ -138,14 +148,13 @@ class Othello(Game):
                                 pygame.display.update()
                                 pygame.time.wait(3000)
                                 running = False
-                                break
-        pygame.quit()
-        return winner
-                        
+                                return winner
+                            
                     
         
         
             
+
 
 
 
