@@ -30,9 +30,7 @@ class TicTacToe(Game):
             return False
     
     def run(self):
-        
         pygame.init()
-    
         screen = pygame.display.set_mode((800, 800))
         icon= pygame.image.load("tic-tac-toe.png")
         pygame.display.set_icon(icon)
