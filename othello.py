@@ -67,10 +67,10 @@ class Othello(Game):
         pygame.init()
         screen = pygame.display.set_mode((800,800))
         pygame.display.set_caption("Othello")
-        back = pygame.image.load("back_othello.jpeg")
+        back = pygame.image.load("back_othello_og.png")
         background= pygame.transform.scale(back,(800,800))
-        black_disc= pygame.image.load("blackdisc.png")
-        white_disc= pygame.image.load("white disc.png")
+        black_disc= pygame.image.load("black_disc_newbie.png")
+        white_disc= pygame.image.load("white_disc_newbie.png")
         black_disc= pygame.transform.scale(black_disc,(100,100))
         white_disc= pygame.transform.scale(white_disc,(100,100))
         running=True
@@ -85,9 +85,17 @@ class Othello(Game):
                     elif self.board[i][j]==2:
                         screen.blit(white_disc,(j*100,i*100))
                     elif self.board[i][j]==3:
-                        pygame.draw.circle(screen,(0,255,255),(j*100+50,i*100+50),35,2)
+                        pygame.draw.circle(screen,(120,255,120),(j*100+50,i*100+50),35,2)
                         self.board[i][j]=0
+                    elif self.board[i][j]==4:
+                        self.board[i][j]=0
+            x_coord,y_coord= pygame.mouse.get_pos()
+            xx,yy= x_coord//100,y_coord//100
+            if self.validate_move(yy,xx):
+                self.board[yy][xx]=4
+                pygame.draw.circle(screen,(180,255,180),(xx*100+50,yy*100+50),35,3)
             pygame.display.update()
+            
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     running= False
@@ -112,9 +120,6 @@ class Othello(Game):
                                     screen.blit(black_disc,(j*100,i*100))
                                 elif self.board[i][j]==2:
                                     screen.blit(white_disc,(j*100,i*100))
-                                elif self.board[i][j]==3:
-                                    pygame.draw.circle(screen,(0,255,255),(j*100+50,i*100+50),35,2)
-                                    self.board[i][j]=0
                         u=self.check_win()
                         if u!=-1:
                             if u == 1:
@@ -154,7 +159,6 @@ class Othello(Game):
         
         
             
-
 
 
 
