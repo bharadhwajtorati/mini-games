@@ -35,14 +35,14 @@ class ConnectFour(Game):
         
         screen = pygame.display.set_mode((800, 900))
         screen.fill((0,0,0))
-        icon= pygame.image.load("connect-four.png")
+        icon= pygame.image.load("connect-four.png").convert_alpha()
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Connect Four")
         
         player1img= pygame.image.load("greenball.png")
-        player1img = pygame.transform.scale(player1img, (133, 133))
+        player1img = pygame.transform.scale(player1img, (133, 133)).convert_alpha()
         player2img= pygame.image.load("blueball.png")
-        player2img = pygame.transform.scale(player2img, (133, 133))
+        player2img = pygame.transform.scale(player2img, (133, 133)).convert_alpha()
         
         def draw_board():
             screen.blit(board, (-110, 60))
@@ -66,9 +66,8 @@ class ConnectFour(Game):
                     greenball(X,Y)
                     draw_balls()
                     draw_board()
-    
                     pygame.display.update()
-                    pygame.time.wait(1)
+                    pygame.time.wait(4)
                     Y+=2.375+2*y
                 self.board[row, col] = 1
         def drop_blueball(x, y):
@@ -80,11 +79,11 @@ class ConnectFour(Game):
                     draw_balls()
                     draw_board()
                     pygame.display.update()
-                    pygame.time.wait(1)
                     Y+=2.375+2*y
+                    pygame.time.wait(4)
                 self.board[row, col] = 2
                     
-        board= pygame.image.load("CF_board.png")
+        board= pygame.image.load("CF_board.png").convert_alpha()
         winner = 0   
         draw_board()
         running = True
