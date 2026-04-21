@@ -78,6 +78,12 @@ class Othello(Game):
         while running:
             screen.blit(background,(0,0))
             self.valid_moves_show()
+            x_coord,y_coord= pygame.mouse.get_pos()
+            xx,yy= x_coord//100,y_coord//100
+            if self.validate_move(yy,xx):
+                self.board[yy][xx]=4
+                pygame.draw.circle(screen,(180,255,180),(xx*100+50,yy*100+50),40,3)
+            pygame.display.update()
             for i in range(8):
                 for j in range(8):
                     if self.board[i][j]==1:
@@ -85,16 +91,11 @@ class Othello(Game):
                     elif self.board[i][j]==2:
                         screen.blit(white_disc,(j*100,i*100))
                     elif self.board[i][j]==3:
-                        pygame.draw.circle(screen,(120,255,120),(j*100+50,i*100+50),35,2)
+                        pygame.draw.circle(screen,(80,200,80),(j*100+50,i*100+50),35,2)
                         self.board[i][j]=0
                     elif self.board[i][j]==4:
                         self.board[i][j]=0
-            x_coord,y_coord= pygame.mouse.get_pos()
-            xx,yy= x_coord//100,y_coord//100
-            if self.validate_move(yy,xx):
-                self.board[yy][xx]=4
-                pygame.draw.circle(screen,(180,255,180),(xx*100+50,yy*100+50),35,3)
-            pygame.display.update()
+            
             
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
