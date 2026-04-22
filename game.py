@@ -91,7 +91,7 @@ def interface():
                         if(y>=475 and y<=475+290):
                             if(32<=x<=322):
                                 game = 1
-                                running=False
+                                running=False                              
                                 break
                             elif(355<=x<=645):
                                 game=2

@@ -67,7 +67,7 @@ class ConnectFour(Game):
                     draw_balls()
                     draw_board()
                     pygame.display.update()
-                    pygame.time.wait(4)
+                    pygame.time.wait(5)
                     Y+=2.375+2*y
                 self.board[row, col] = 1
         def drop_blueball(x, y):
@@ -80,7 +80,7 @@ class ConnectFour(Game):
                     draw_board()
                     pygame.display.update()
                     Y+=2.375+2*y
-                    pygame.time.wait(4)
+                    pygame.time.wait(5)
                 self.board[row, col] = 2
                     
         board= pygame.image.load("CF_board.png").convert_alpha()
@@ -89,7 +89,6 @@ class ConnectFour(Game):
         running = True
         turn = 1
         while running:
-            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -125,6 +124,7 @@ class ConnectFour(Game):
                                 pygame.time.wait(3000)
                                 winner = 2
                             turn = 1
+                    trash=pygame.event.get()
                             
             pygame.display.update()
             if not np.any(self.board == 0):
