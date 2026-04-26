@@ -1,5 +1,8 @@
 import pygame
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from game import Game
 class TicTacToe(Game):
     def check_max(self ,player , row, col, x, y):
@@ -31,13 +34,13 @@ class TicTacToe(Game):
     def run(self):
         pygame.init()
         screen = pygame.display.set_mode((800, 800))
-        icon= pygame.image.load("tic-tac-toe.png")
+        icon= pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe.png")
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Tic-Tac-Toe")
-        background_img = pygame.image.load("tic-tac-toe-back.png").convert_alpha()
+        background_img = pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe-back.png").convert_alpha()
         background_img = pygame.transform.scale(background_img, (800, 800))
         screen.blit(background_img, (0, 0))
-        X_img=pygame.transform.scale(pygame.image.load("X.png"), (150, 150)).convert_alpha()
+        X_img=pygame.transform.scale(pygame.image.load("media/Tic_Tac_Toe/X.png"), (150, 150)).convert_alpha()
         def draw_x(x, y):
             if self.validate_move(y, x):
                 screen.blit(X_img, (x*80-32, y*80-32))

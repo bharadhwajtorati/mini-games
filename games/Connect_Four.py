@@ -1,5 +1,8 @@
 import pygame
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from game import Game
 class ConnectFour(Game):
     
@@ -35,13 +38,13 @@ class ConnectFour(Game):
         
         screen = pygame.display.set_mode((800, 900))
         screen.fill((0,0,0))
-        icon= pygame.image.load("connect-four.png").convert_alpha()
+        icon= pygame.image.load("media/Connect_Four/connect-four.png").convert_alpha()
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Connect Four")
         
-        player1img= pygame.image.load("greenball.png")
+        player1img= pygame.image.load("media/Connect_Four/greenball.png")
         player1img = pygame.transform.scale(player1img, (133, 133)).convert_alpha()
-        player2img= pygame.image.load("blueball.png")
+        player2img= pygame.image.load("media/Connect_Four/blueball.png")
         player2img = pygame.transform.scale(player2img, (133, 133)).convert_alpha()
         
         def draw_board():
@@ -83,7 +86,7 @@ class ConnectFour(Game):
                     pygame.time.wait(5)
                 self.board[row, col] = 2
                     
-        board= pygame.image.load("CF_board.png").convert_alpha()
+        board= pygame.image.load("media/Connect_Four/CF_board.png").convert_alpha()
         winner = 0   
         draw_board()
         running = True

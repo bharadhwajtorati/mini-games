@@ -37,21 +37,21 @@ def interface():
     pygame.init()
     menu=pygame.display.set_mode((1000,900))
     pygame.display.set_caption("Mini-Games")
-    background_image=pygame.image.load("background.png").convert_alpha()
+    background_image=pygame.image.load("media/Interface/background.png").convert_alpha()
     background_image=pygame.transform.scale(background_image,(1000,900))
-    tic_tac_toe_icon=pygame.image.load("tic-tac-toe_big.png").convert_alpha()
+    tic_tac_toe_icon=pygame.image.load("media/Interface/tic-tac-toe_big.png").convert_alpha()
     tic_tac_toe_icon=pygame.transform.smoothscale(tic_tac_toe_icon,(290,290))
     ttt_rect = tic_tac_toe_icon.get_rect(topleft=(32,475))
-    connect_four_icon=pygame.image.load("connect-four_big.png").convert_alpha()
+    connect_four_icon=pygame.image.load("media/Interface/connect-four_big.png").convert_alpha()
     connect_four_icon=pygame.transform.smoothscale(connect_four_icon,(290,290))
     cf_rect = connect_four_icon.get_rect(topleft=(355,475))
-    othello_icon=pygame.image.load("othello_big.png").convert_alpha()
+    othello_icon=pygame.image.load("media/Interface/othello_big.png").convert_alpha()
     othello_icon=pygame.transform.smoothscale(othello_icon,(290,290))
     othello_rect = othello_icon.get_rect(topleft=(678,475))
-    mini_game_bigicon=pygame.image.load("game_big.png").convert_alpha()
+    mini_game_bigicon=pygame.image.load("media/Interface/game_big.png").convert_alpha()
     mini_game_bigicon=pygame.transform.smoothscale(mini_game_bigicon,(750,300))
     mini_game_bigicon.set_colorkey((0,0,0))
-    mini_game_icon=pygame.image.load("game.png")
+    mini_game_icon=pygame.image.load("media/Interface/game.png")
     pygame.display.set_icon(mini_game_icon)
     running  = True
     game=0
@@ -106,32 +106,54 @@ def interface():
 
 def stats(winner):
     pygame.init()
-    
     stats=pygame.display.set_mode((500,300))
-    stats.fill((30, 30, 47))
     pygame.display.set_caption("Winner")
-    write(stats,f"WINNER : {winner}",65,40,(255,215,0))
-    write(stats,"Click sorting option for leaderboard:",10,120,font_size=35,colour=(180,190,210),font="Roboto")
-    
-    rect = pygame.Rect(12, 180, 150, 60)
-    pygame.draw.rect(stats, (42,42,64), rect, border_radius=20)
-    write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
-    
-    rect = pygame.Rect(12+13+150, 180, 150, 60)
-    pygame.draw.rect(stats, (42,42,64), rect, border_radius=20)
-    write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
-
-    rect = pygame.Rect(12+13+150+13+150, 180, 150, 60)
-    pygame.draw.rect(stats, (42,42,64), rect, border_radius=20)
-    write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
-    
-    pygame.display.update()
+    rect1 = pygame.Rect(12, 180, 150, 60)
+    rect_1=pygame.Rect(7, 178, 160, 64)
+    rect2 = pygame.Rect(12+13+150, 180, 150, 60)
+    rect_2= pygame.Rect(7+13+150, 178, 160, 64)
+    rect3 = pygame.Rect(12+13+150+13+150, 180, 150, 60)
+    rect_3= pygame.Rect(7+13+150+13+150, 178, 160, 64)
     running = True
     sort=0
     while running:
+        stats.fill((30, 30, 47))
+        write(stats,f"WINNER : {winner}",65,40,(255,215,0))
+        write(stats,"Click sorting option for leaderboard:",10,120,font_size=35,colour=(180,190,210),font="Roboto")
+        Mpos=pygame.mouse.get_pos()
+        if rect1.collidepoint(Mpos):
+            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_1, border_radius=21)
+            write(stats,"Wins",12+31,180+14,font_size=53,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+        elif rect2.collidepoint(Mpos):
+            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_2, border_radius=21)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=53,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+        elif rect3.collidepoint(Mpos):
+            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_3, border_radius=21)
+            write(stats,"Win/Loss",7+13+150+13+150+10,180+16,font_size=48,colour=(255,255,255))
+        else :
+            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
+            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+        pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT :
                 running = False
+                sort = 4
                 break
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -154,9 +176,7 @@ def stats(winner):
     pygame.quit()
     return sort         
 
-def plot_stats(variable,winner,un1,un2):
-    sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
-    subprocess.run(f"bash leaderboard.sh {variable} {sort_option}", shell=True)
+def plot_stats():
     file=open("history.csv","r")
     wins={}
     counts={"TicTacToe":0,"Connect_Four":0,"Othello":0}
@@ -187,6 +207,7 @@ def plot_stats(variable,winner,un1,un2):
     plt.suptitle("Plots of Wins and Game distribution")
     plt.tight_layout()
     plt.show()
+
 def main():
     un1= sys.argv[1]
     un2= sys.argv[2]
@@ -197,7 +218,7 @@ def main():
         winner = None
         if variable == 1 :
             print("Launching Tic-Tac-Toe")
-            from tic_tac_toe import TicTacToe
+            from games.tic_tac_toe import TicTacToe
             ttt = TicTacToe(un1, un2, 1)
             winner = ttt.run()
             if winner == 1:
@@ -206,7 +227,7 @@ def main():
                 record_results(un2,un1,"TicTacToe")   
         elif variable== 2 :
             print("Launching Connect_Four")
-            from Connect_Four import ConnectFour
+            from games.Connect_Four import ConnectFour
             CF = ConnectFour(un1, un2, 2)
             winner = CF.run()
             if winner == 1:
@@ -215,7 +236,7 @@ def main():
                 record_results(un2,un1,"Connect_Four")  
         elif variable== 3 :
             print("Launching Othello")
-            from othello import Othello
+            from games.othello import Othello
             OT=Othello(un1,un2,3)
             winner = OT.run()
             if winner == 1:
@@ -224,11 +245,17 @@ def main():
                 record_results(un2,un1,"Othello")
         elif variable== 4 :
             break
-        plot_stats(variable,winner,un1,un2)
+        
+        sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
+        if sort_option != 4:
+            subprocess.run(f"bash leaderboard.sh {variable} {sort_option}")   
+            plot_stats()
+            
         if input("do you want to play again(y/n)").lower() == "y" :
             continue
         else:
             print("Quitting menu")
             break           
+
 if __name__=="__main__":   main()
 
