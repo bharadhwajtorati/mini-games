@@ -248,7 +248,7 @@ def main():
         
         sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
         if sort_option != 4:
-            subprocess.run(f"bash leaderboard.sh {variable} {sort_option}")   
+            subprocess.run(f"bash leaderboard.sh  {sort_option}")   
             plot_stats()
             
         if input("do you want to play again(y/n)").lower() == "y" :

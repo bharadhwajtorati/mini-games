@@ -3,7 +3,7 @@ echo "===============   Leaderboard for TicTacToe   ==============="
 echo "Player               Wins   Losses   Win/Loss Ratio"
 echo "----------------------------------------------------"
 awk -F "," -v game="TicTacToe" ' 
-$4==game {Ws[$1]++; Ls[$2]++} 
+$4~game {Ws[$1]++; Ls[$2]++} 
 END {
     for (player in Ws) {
         if(Ls[player] == 0){
@@ -31,7 +31,7 @@ echo "===============   Leaderboard for Othello   ==============="
 echo "Player               Wins   Losses   Win/Loss Ratio"
 echo "----------------------------------------------------"
 awk -F "," -v game="Othello" ' 
-$4==game {Ws[$1]++; Ls[$2]++} 
+$4~game {Ws[$1]++; Ls[$2]++} 
 END {
     for (player in Ws) {
         if(Ls[player] == 0){
@@ -59,7 +59,7 @@ echo "===============   Leaderboard for Connect_Four   ==============="
 echo "Player               Wins   Losses   Win/Loss Ratio"
 echo "----------------------------------------------------"
 awk -F "," -v game="Connect_Four" ' 
-$4==game {Ws[$1]++; Ls[$2]++} 
+$4~game {Ws[$1]++; Ls[$2]++} 
 END {
     for (player in Ws) {
         if(Ls[player] == 0){
