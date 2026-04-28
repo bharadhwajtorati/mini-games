@@ -42,18 +42,24 @@ class TicTacToe(Game):
         else:
             return False
     
-    #game interface   
+    #main game interface   
     def run(self):
         
-        #initialising pygame and loading necessary images, scaling them for the tic-tac-toe game
+        #initialising pygame and setting up display window
         pygame.init()
         screen = pygame.display.set_mode((800, 800))
+        
+        #loading icon and setting window caption
         icon= pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe.png")
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Tic-Tac-Toe")
+        
+        #loading and scaling background image
         background_img = pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe-back.png").convert_alpha()
         background_img = pygame.transform.scale(background_img, (800, 800))
         screen.blit(background_img, (0, 0)) #setting background
+        
+        #loading and scaling X image
         X_img=pygame.transform.scale(pygame.image.load("media/Tic_Tac_Toe/X.png"), (150, 150)).convert_alpha()
         
         #functions to draw X, O, and lines on the board
@@ -62,6 +68,7 @@ class TicTacToe(Game):
                 screen.blit(X_img, (x*80-32, y*80-32))
                 return True
             return False
+        
         def draw_o(x, y):
             if self.validate_move(y//80, x//80):
                 pygame.draw.circle(screen, (0, 255, 0), (x, y), 30, width=5)
@@ -69,14 +76,19 @@ class TicTacToe(Game):
                 pygame.draw.circle(screen, (180, 255, 180), (x, y), 33, width=2)
                 return True
             return False
+        
+        #draw blue line for player 1 win
         def draw_blueline(x1, y1, x2, y2):
             pygame.draw.line(screen, (0, 150, 255), (x1, y1), (x2, y2), 10)
             pygame.draw.line(screen, (0, 245, 255), (x1, y1), (x2, y2), 7)
             pygame.draw.line(screen, (200, 255, 255), (x1, y1), (x2, y2), 3)
+        
+        #draw green line for player 2 win
         def draw_greenline(x1, y1, x2, y2):
             pygame.draw.line(screen, (0, 255, 0), (x1, y1), (x2, y2), 10)
             pygame.draw.line(screen, (0, 255, 80), (x1, y1), (x2, y2), 7)
             pygame.draw.line(screen, (180, 255, 180), (x1, y1), (x2, y2), 3)       
+        
         running = True
         turn = 1
         winner = 0 
@@ -84,7 +96,7 @@ class TicTacToe(Game):
         #main game loop
         while running:
             
-            #handling events: drawing X and O, and quitting the game
+            #handling events: mouse input and quit
             for event in pygame.event.get():
                 
                 if event.type == pygame.QUIT:
@@ -101,10 +113,12 @@ class TicTacToe(Game):
                     #player 1 move
                     if turn == 1:
                         
-                        #draw X if valid, check win, then switch turn
+                        #draw X if valid, update board, check win, then switch turn
                         if draw_x(x//80, y//80):
                             self.board[y//80, x//80] = 1
                             X=self.check_win(y//80, x//80)
+                            
+                            #check for win
                             if X[0]:
                                 
                                 #drawing the line where the win occurs
@@ -125,13 +139,14 @@ class TicTacToe(Game):
                                 turn=0
                         break
                     
-                    #player 2 move 
-                    #this part is similar to player 1 move
+                    #player 2 move (similar logic as player 1)
                     else:
                         if draw_o(x//80*80+40, y//80*80+40):
                             turn = 1
                             self.board[y//80, x//80] = 2
                             X=self.check_win(y//80, x//80)
+                            
+                            #check for win
                             if X[0]:
                                 print(f"{self.player2} wins!")
                                 if(X[1] == "E"):
@@ -147,15 +162,19 @@ class TicTacToe(Game):
                                 running=False
                                 winner = 2
                         break
+                
+                #clearing extra events
                 trash=pygame.event.get()
+            
             pygame.display.update()
             
-            #checking for a draw
+            #checking for a draw (no empty cells left)
             if not np.any(self.board == 0):
                 print("It's a draw!")
                 pygame.time.wait(3000)
                 running = False 
                 winner = 3
+        
         pygame.quit()        
         return winner #returning the winner
     
