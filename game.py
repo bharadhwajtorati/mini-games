@@ -31,7 +31,7 @@ class Game:
     def switch(self):
             self.turn=self.player1 if self.turn==self.player2 else self.player2     
 
-#function to record the results of game(win/loss) in histiory.csv file 
+#function to record the results of game(win/loss) in history.csv file 
 #with the format : winner,loser,date_time,game_name
 def record_results(un1,un2,gamename):
     with open("history.csv", "a", newline="") as f:
@@ -247,11 +247,11 @@ def main():
     print(f"Welcome to The Gaming Hub {un1} and {un2}")
     print("Opening the menu of games")
     while True:
-        #showing the interface to chose the game 
+        #showing the interface to choose the game 
         variable= interface()
         winner = None
         
-        #running the respective game chosen and recording the results
+        #running the respective game choosen and recording the results
         if variable == 1 :
             print("Launching Tic-Tac-Toe")
             from games.tic_tac_toe import TicTacToe

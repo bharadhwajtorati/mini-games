@@ -1,16 +1,26 @@
+#importing necessary libraries
 import pygame
 import numpy as np
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..")) #to also search in the parent directory (outside the games folder)
 from game import Game
+
+#creating tic-tac-toe game class containing the game and all functions required to run it
 class TicTacToe(Game):
+    
+    """check_max is a function that gives the maximum number of positions in a 
+    particular direction from a given position that have the same item consecutively,
+    matching the item at the given position. It is based on recursion."""
     def check_max(self ,player , row, col, x, y):
         if(row>9 or row<0 or col>9 or col<0):
             return 0
         if self.board[row, col] != player:
             return 0
         return 1+ self.check_max(player, row+y, col+x, x, y)
+    
+    """It checks the win condition by adding the check_max values of opposite directions 
+    (for 4 possible directions) and returns data to identify where the win occurred."""
     def check_win(self, row, col):
         player = self.board[row, col]
         if self.check_max(player, row, col, 1, 0)+self.check_max(player, row, col, -1, 0) >= 6:
@@ -25,13 +35,17 @@ class TicTacToe(Game):
             L= [False]
         return L 
     
+    #checks whether the move is valid or not
     def validate_move(self, row, col):
         if self.board[row, col] == 0:
             return True
         else:
             return False
-        
+    
+    #game interface   
     def run(self):
+        
+        #initialising pygame and loading necessary images, scaling them for the tic-tac-toe game
         pygame.init()
         screen = pygame.display.set_mode((800, 800))
         icon= pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe.png")
@@ -39,8 +53,10 @@ class TicTacToe(Game):
         pygame.display.set_caption("Tic-Tac-Toe")
         background_img = pygame.image.load("media/Tic_Tac_Toe/tic-tac-toe-back.png").convert_alpha()
         background_img = pygame.transform.scale(background_img, (800, 800))
-        screen.blit(background_img, (0, 0))
+        screen.blit(background_img, (0, 0)) #setting background
         X_img=pygame.transform.scale(pygame.image.load("media/Tic_Tac_Toe/X.png"), (150, 150)).convert_alpha()
+        
+        #functions to draw X, O, and lines on the board
         def draw_x(x, y):
             if self.validate_move(y, x):
                 screen.blit(X_img, (x*80-32, y*80-32))
@@ -64,7 +80,11 @@ class TicTacToe(Game):
         running = True
         turn = 1
         winner = 0 
+        
+        #main game loop
         while running:
+            
+            #handling events: drawing X and O, and quitting the game
             for event in pygame.event.get():
                 
                 if event.type == pygame.QUIT:
@@ -78,12 +98,16 @@ class TicTacToe(Game):
                     if button != 1:
                         continue
                     
+                    #player 1 move
                     if turn == 1:
+                        
+                        #draw X if valid, check win, then switch turn
                         if draw_x(x//80, y//80):
-                            turn = 0
                             self.board[y//80, x//80] = 1
                             X=self.check_win(y//80, x//80)
                             if X[0]:
+                                
+                                #drawing the line where the win occurs
                                 print(f"{self.player1} wins!")
                                 if(X[1] == "E"):
                                     draw_blueline((x//80+X[2])*80+40, y//80*80+40, (x//80-X[3])*80+40, y//80*80+40)
@@ -97,7 +121,12 @@ class TicTacToe(Game):
                                 pygame.time.wait(2000)
                                 running = False
                                 winner = 1
+                            else:
+                                turn=0
                         break
+                    
+                    #player 2 move 
+                    #this part is similar to player 1 move
                     else:
                         if draw_o(x//80*80+40, y//80*80+40):
                             turn = 1
@@ -120,13 +149,15 @@ class TicTacToe(Game):
                         break
                 trash=pygame.event.get()
             pygame.display.update()
+            
+            #checking for a draw
             if not np.any(self.board == 0):
                 print("It's a draw!")
                 pygame.time.wait(3000)
                 running = False 
                 winner = 3
         pygame.quit()        
-        return winner
+        return winner #returning the winner
     
 if __name__ == "__main__":
     ttt = TicTacToe("Player 1", "Player 2", 1)
