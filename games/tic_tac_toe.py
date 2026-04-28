@@ -179,5 +179,4 @@ class TicTacToe(Game):
         return winner #returning the winner
     
 if __name__ == "__main__":
-    ttt = TicTacToe("Player 1", "Player 2", 1)
-    ttt.run()
+    TicTacToe("Player 1", "Player 2", 1).run()

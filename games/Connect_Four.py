@@ -91,6 +91,7 @@ class ConnectFour(Game):
                     draw_balls()
                     draw_board()
                     pygame.display.update()
+                    if(y>=4): pygame.time.wait(2)
                     pygame.time.wait(5)
                     Y+=2.375+2*y
                 self.board[row, col] = 1
@@ -106,6 +107,7 @@ class ConnectFour(Game):
                     draw_board()
                     pygame.display.update()
                     Y+=2.375+2*y
+                    if(y>=4): pygame.time.wait(2)
                     pygame.time.wait(5)
                 self.board[row, col] = 2
                     
