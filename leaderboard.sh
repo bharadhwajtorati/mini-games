@@ -76,9 +76,9 @@ END {
         }
     }
 }' history.csv | 
-if [[ $2 == "1" ]]; then
+if [[ $1 == "1" ]]; then
     sort -k2,2nr
-elif [[ $2 == "2" ]]; then
+elif [[ $1 == "2" ]]; then
     sort -k3,3n
 else
     sort -k4,4gr
