@@ -56,6 +56,7 @@ git clone https://github.com/bharadhwajtorati/mini-games.git
 cd mini-games
 pip install -r requirements.txt
 ```
+**NOTE:-** Try to create a vitual environment before installing to avoid conflicts with your other projects
 
 ## Usage
 follow the instructions
