@@ -1,0 +1,171 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+
+\setstretch{1.2}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Mini Game Hub}
+\rfoot{\thepage}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Mini Game Hub}\par}
+    \vspace{0.5cm}
+    {\Large Made using Bash and Python(pygame)\par}
+    \vspace{2cm}
+    {\Large \textbf{Submitted by}\par}
+    \vspace{1cm}
+    \begin{tabular}{c c}
+    \textbf{Bhanu Charan} & \textbf{Bharadhwaj}
+    \\
+    25B0990 & 25B1073 \\
+    \end{tabular}
+    \vfill
+\end{titlepage}
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This project involves building a secure, multi-user game hub that integrates Bash scripting for authentication and Python(pygame) for gameplay. Basically, two players authenticate, select a game and play via a graphical interface. Results are recorded and visualized through a leaderboard system.
+
+\section{External Libraries Used}
+\begin{itemize}
+    \item \textbf{pygame-ce}: Graphical Interface rendering and gameplay interaction
+    \item \textbf{numpy}: Board representation and win condition checks
+    \item \textbf{matplotlib}: Data visualization (plots)
+    \item \textbf{csv}: For recording game results in \texttt{history.csv}
+    \item \textbf{datetime}: To record date and time of each game in \texttt{history.csv}
+    \item \textbf{sys}: To access command-line arguments
+    \item \textbf{subprocess}: Used to run Bash commands from python, such as running \texttt{leaderboard.sh} from \texttt{game.py}
+    \item \textbf{os}: Along with \textbf{subprocess}, for accessing modules from parent directories
+    
+\end{itemize}
+
+\section{Features Implemented}
+\begin{itemize}
+    \item Secure authentication using SHA-256 hashing
+    \item Game selection menu
+    \item Supports the following games:
+    \begin{itemize}
+        \item Tic-Tac-Toe (extended board)
+        \item Othello (Reversi)
+        \item Connect Four
+    \end{itemize}
+    \item Leaderboard system (with multiple sorting options)
+    \item Data visualization using charts
+    \item Replay option after each game
+\end{itemize}
+
+\section{Code Design}
+
+\subsection{Base Game Class}
+A generic class was implemented to represent a two-player board game. Code contains an initiator function and a turn switching function. The players get assigned with player 1 or 2 status and board(using numpy) gets initialized. Turn switching function is self-explanatory 
+
+\subsection{Tic-Tac-Toe Game}
+A Tic-Tac-Toe class is created that inherits from the base class. Pygame is used for UI of the game. Board is represented using a 10x10 NumPy array, where each cell stores the state of the position(empty,player1, or player2).
+\paragraph{Move Validation:}
+Move validation is straightforward, as a move is allowed only if the selected cell is empty.
+\paragraph{Win condition:}
+The game checks for win after every move. This is done using a helper function which counts the maximum number of consecutive identical symbols (X or O) from a given cell (itself included) in a specified direction until a different symbol is encountered. This is applied along all directions by combining counts from opposite directions. If any direction results in a consecutive count greater than or equal to 6, the player wins.
+
+To improve visual clarity, the game highlights the winning sequence by drawing a line across the board (across the sequence of winning symbols) when a player wins. If the board is fully filled without a winner, the game is declared a draw.
+
+
+\subsection{Othello Game}
+Othello class is created that inherits from the base class. Pygame is used for UI of the game. Valid moves are shown on the board for the current player. This is done by going over all the cells of the board and applying \texttt{validate\_move} function to each empty position. When a move is found to be valid, it is marked in the NumPy Board representation and displayed as circular indicator on the UI.
+\paragraph{Move validation:}
+The \texttt{validate\_move} function checks whether placing a disc at a given position results in flipping of atleast one opponent disc by going in all 8 directions from the selected cell. A move is considered valid if there exists at least one direction where a continuous sequence of opponent discs is followed by a disc of the current player.
+\paragraph{Flipping discs:}
+Once a valid move is made, the \texttt{flip\_discs} function is executed. Similar to validation process, it checks all eight directions from the placed position. In each direction, if a sequence of opponent discs is bounded by a disc of current player, all the discs in that sequence are updated in the NumPy board array to reflect current player's colour.
+
+\paragraph{Win Condition:}
+Win condition has two stages. After each move, a function is called which checks if all the cells are filled or not. If filled, then using Numpy's sum operation over the board, it will report the winner (or maybe a tie situation). If board is not filled, then we come out of the function and proceed to next stage where valid move availability is checked for the next player using a \texttt{has\_valid\_moves} function. If current player has no valid moves, their turn is skipped.
+
+However, if both players consecutively have no valid moves, the game is ended. And then winner is evaluated by using Numpy's sum operator over the board.
+
+\subsection{Connect Four Game}
+Connect Four class is created which inherits from the same base class. Pygame is used for the UI of the game. Board is represented with a 7x7 NumPy array. Players select a column using mouse input, and the piece is placed in the lowest available row within that column.
+\paragraph{Move Validation:}
+Move validation is handled by checking whether the top-most cell of a column is empty or not. If it is not empty, the column is considered full and the move is not valid.
+
+After a valid move, the correct row is determined by scanning upward from bottom of the column until an empty position is found. Drop animation is implemented using Pygame, where the piece visually falls from the top to its final position.
+\paragraph{Win Condition:}
+The win condition is evaluated after each move using a directional counting approach similar to the Tic-Tac-Toe game. A recursive helper function is used to count consecutive pieces starting from the specified cell (itself included) belonging to the same player in a specific direction. Counts from opposite directions are added, and if the total is greater than or equal to 5, the player wins.
+
+If the board becomes completely filled without any player achieving four in a row, the game ends in a draw
+
+\subsection{Authentication System - \texttt{main.sh}}
+The authentication system is implemented using a Bash script that handles both login and registration ( hence the function is named LorR ) for two players before starting the game.
+\paragraph{Login:}
+The system prompts each player to enter a username and makes sure that the usernames are valid (non-empty and distinct). If a username already exists in the \texttt{users.tsv} file, the user is asked to enter their password. The entered password is hashed using the SHA-256 algorithm and compared with the stored hashed value in \texttt{users.tsv} to verify the credentials. If the password is incorrect, the user will make sure whether they entered the correct username and then try again.
+\paragraph{Registration:}
+If the username does not exist, the system provides an option to register. During registration, the user is required to enter and confirm their password. Once the passwords match, the password is hashed and stored along with the username in the \texttt{users.tsv} file.
+
+After successful authentication of both players, their usernames are passed as command-line arguments to the \texttt{game.py} file, which then starts the game hub.
+\subsection{Leaderboard System}
+The leaderboard system is implemented using a Bash script that processes the \texttt{history.csv} file to display player performance stats for each game.
+
+The script reads the CSV file and filters entries based on the game name (Tic-Tac-Toe, Othello, or Connect Four). For each game, it calculates the number of wins and losses for every player by counting how many times a player appears as a winner and as a loser in the csv file. Games which end up in tie are not added to the csv file so every line in the csv file has a winner and a loser.
+\paragraph{Win/Loss Ratio:}
+Using the computed counts, the win/loss ratio is calculated for each player. If a player has zero losses, the ratio is written as \textit{inf}, because when we sort using a -g flag ( general numeric sort) , it treats \textit{inf} as the largest value. The results are then formatted into a structured table displaying name, wins, losses and win/loss ratio.
+\paragraph{Sorting:}
+The leaderboard can be sorted based on different metrics such as wins, losses, or win/loss ratio (using the sort command along with flags) . This is controlled through a command-line argument passed to the script. Seperate leaderboards are genereated for each game to allow independent analysis of performance.
+\subsection{Data Visualization code}
+To provide a visual summary of game statistics, charts are generated using data from \texttt{history.csv} file.
+
+The file is read line by line, and relevant information such as the winner and game name is extracted. A dictionary is used to count the total number of wins for each player, while another dictionary keeps track of how many times each game has been played.
+\paragraph{Top players by Wins:}
+The players are sorted based on their total number of wins, and the top five players are selected. A bar graph is then plotted to display the number of wins for these players, providing a clear comparison of their performance.
+\paragraph{Game Distribution:}
+The frequency of each game is used to generate a pie chart, showing the distribution of games played which helps in visualizing which games are played more frequently
+
+Both charts are displayed together (sub plot) using \texttt{matplotlib}, with appropriate labels and titles for clarity.
+\section{Hurdles Faced}
+\begin{itemize}
+    \item Writing win conditions without loops
+    \item Adding animation for falling piece in Connect Four
+    \item Matching themes across all the games (visual consistency)
+    \item Finding apt images for game objects and background
+    \item Writing about Hurdles faced
+\end{itemize}
+\section{If given more time}
+With additional time:
+\begin{itemize}
+    \item Add more games
+    \item Add sound effects
+    \item Add a turn indicator to clearly display the current player's turn
+    \item Add animation effects to Othello
+    \item Refine Visual consistency
+\end{itemize}
+\vfill
+
+\section{Bibliography}
+\begin{itemize}
+    \item \url{http://docs.python.org/3/tutorial/classes.html}
+    \item \url{http://pyga.me}
+    \item \url{http://worldothello.org}
+    \item \url{http://boardgamegeek.com/boardgame/2719/connect-four}
+    \item \url{https://www.w3schools.com/python/numpy/default.asp}
+    \item \url{https://www.w3schools.com/python/matplotlib_intro.asp}
+\end{itemize}
+
+\end{document}
