@@ -52,8 +52,8 @@ one move
 
 ## Installation
 ```bash
-git clone https://github.com/user/repo.git
-cd repo
+git clone https://github.com/bharadhwajtorati/mini-games.git
+cd mini-games
 pip install -r requirements.txt
 ```
 
