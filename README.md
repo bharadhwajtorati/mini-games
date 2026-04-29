@@ -14,6 +14,8 @@ A small game hub where you can play basic two-player games
 Building a secure, multi-user game hub that integrates Bash scripting for authentication and Python
 (Pygame) for gameplay. Two authenticated players select a game from a menu, play via a
 graphical interface, and have their results recorded on a persistent leaderboard.
+
+For more details refer to report pdf in report folder
 ## Games
 This repository contains the following games
 
