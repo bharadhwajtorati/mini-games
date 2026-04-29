@@ -3,7 +3,7 @@ A small game hub where you can play basic two-player games
 
 ## Table of Contents 
 - [About](#about)
-- [Games](games)
+- [Games](#games)
   - [Tic-Tac-Toe](#tic-tac-toe)
   - [Connect-Four](#connect-four)
   - [Othello](#othello)
