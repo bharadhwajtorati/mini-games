@@ -9,6 +9,7 @@
 \usepackage{enumitem}
 \usepackage{setspace}
 \usepackage{booktabs}
+\usepackage{tikz}
 
 \setstretch{1.2}
 \pagestyle{fancy}
@@ -75,10 +76,125 @@ This project involves building a secure, multi-user game hub that integrates Bas
     \item Replay option after each game
 \end{itemize}
 
+\section{Directory Structure}
+
+
+\begin{tikzpicture}[x=1cm, y=1cm]
+
+\node at (0,0) {\texttt{hub/}};
+\draw (0,-0.5) -- (0,-8.5);
+\draw (0,-1) -- (1,-1) node[right] {\texttt{main.sh} - Authentication system};
+\draw (0,-1.5) -- (1,-1.5) node[right] {\texttt{game.py} - Game Hub interface and Base game class};
+\draw (0,-2) -- (1,-2) node[right] {\texttt{leaderboard.sh} - Leaderboard system};
+\draw (0,-2.5) -- (1,-2.5) node[right] {\texttt{games/}};
+\draw (0,-4.5) -- (1,-4.5) node[right] {\texttt{users.tsv} - Storing credentials};
+\draw (0,-5) -- (1,-5) node[right] {\texttt{history.csv} - Storing game results};
+\draw (0,-5.5) -- (1,-5.5) node[right] {\texttt{report/}};
+\draw (0,-7.5) -- (1,-7.5) node[right] {\texttt{media/}};
+\draw (0,-8) -- (1,-8) node[right] {\texttt{README.md} - Explanation of Usage and details};
+\draw (0,-8.5) -- (1,-8.5) node[right] {\texttt{requirements.txt} - Installations and Dependencies};
+\draw (1,-2.5) -- (1,-4); 
+\draw (1,-5.5) -- (1,-7);
+\draw (1,-6) -- (2,-6) node[right] {\texttt{Makefile} - Used to create \texttt{report.pdf}};
+\draw (1,-6.5) -- (2,-6.5) node[right] {\texttt{report.tex} - LaTeX report document};
+\draw (1,-7) -- (2,-7) node[right] {\texttt{report.pdf} - Report in PDF form};
+\draw (1,-3) -- (2,-3) node[right] {\texttt{tic\_tac\_toe.py} - Tic Tac Toe class};
+\draw (1,-3.5) -- (2,-3.5) node[right] {\texttt{othello.py} - Othello Class};
+\draw (1,-4) -- (2,-4) node[right] {\texttt{Connect\_Four.py} - Connect Four Class};
+
+\end{tikzpicture}
+
+\section{Installation and Setup}
+
+This section explains how to install the required dependencies and set up the project for execution.
+
+\subsection{Clone the Repository}
+First, clone the project repository and navigate into the project folder:
+
+\begin{verbatim}
+git clone <repository-url>
+cd hub
+\end{verbatim}
+
+\subsection{Install Python Dependencies}
+Install all required Python libraries using pip:
+
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+
+\subsection{Install LaTeX Dependencies (for report compilation)}
+To compile the report, install a LaTeX distribution.
+
+On Ubuntu/Debian systems:
+\begin{verbatim}
+sudo apt install texlive-latex-recommended texlive-latex-extra
+\end{verbatim}
+
+On Windows, install MikTeX and ensure pdflatex is added to PATH.
+
+\subsection{Makefile Setup}
+Ensure \texttt{make} is installed:
+
+\begin{verbatim}
+sudo apt install make
+\end{verbatim}
+
+Hopefully this is enough to get the project running.
+
+\section{Usage}
+
+This section explains how to run and interact with the project.
+
+\subsection{Starting the Game Hub}
+Run the project using the following command:
+
+\begin{verbatim}
+bash main.sh
+\end{verbatim}
+
+This launches the authentication system.
+
+\subsection{Login and Registration}
+\begin{itemize}
+    \item Enter username and password for Player 1 and Player 2
+    \item If the user already exists, login is performed using SHA-256 password verification
+    \item If the user does not exist, registration is offered
+\end{itemize}
+
+After successful authentication, the game engine starts automatically.
+
+\subsection{Game Selection}
+A Pygame window opens with a menu where players can choose one of the following games:
+\begin{itemize}
+    \item Tic-Tac-Toe
+    \item Othello
+    \item Connect Four
+\end{itemize}
+
+Players interact using mouse clicks.
+
+\subsection{Gameplay}
+\begin{itemize}
+    \item Players take alternate turns
+    \item The game ends when a win condition or draw condition is reached
+\end{itemize}
+
+\subsection{After Each Game}
+After completion:
+\begin{itemize}
+    \item Result is stored in \texttt{history.csv}
+    \item A Pygame window showing the username of winner is displayed
+    \item The same window will ask for sorting options of leaderboard
+    \item Leaderboard is displayed (via leaderboard.sh)
+    \item Graphs are shown using Matplotlib
+    \item Players can choose to play again or exit
+\end{itemize}
+
 \section{Code Design}
 
 \subsection{Base Game Class}
-A generic class was implemented to represent a two-player board game. Code contains an initiator function and a turn switching function. The players get assigned with player 1 or 2 status and board(using numpy) gets initialized. Turn switching function is self-explanatory 
+A generic class was implemented to represent a two-player board game. Code contains an initiator function and a turn switching function. The players get assigned with player 1 or 2 status and board(using numpy) gets initialized . Turn switching function is self-explanatory 
 
 \subsection{Tic-Tac-Toe Game}
 A Tic-Tac-Toe class is created that inherits from the base class. Pygame is used for UI of the game. Board is represented using a 10x10 NumPy array, where each cell stores the state of the position(empty,player1, or player2).
@@ -156,7 +272,6 @@ With additional time:
     \item Add animation effects to Othello
     \item Refine Visual consistency
 \end{itemize}
-\vfill
 
 \section{Bibliography}
 \begin{itemize}
