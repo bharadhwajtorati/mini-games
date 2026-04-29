@@ -99,6 +99,7 @@ class Othello(Game):
             x_coord,y_coord= pygame.mouse.get_pos()
             xx,yy= x_coord//100,y_coord//100 # To get in which row and col mouse is at
             if self.validate_move(yy,xx): # Hover effect when cursor is on a valid move cell
+                self.board[yy][xx]=4
                 pygame.draw.circle(screen,(180,255,180),(xx*100+50,yy*100+50),40,3) # Basic Hover effect by increasing radius and width, and changing colour
             # Loop which dynamically displays all discs on the board and valid moves
             for i in range(8):
@@ -110,6 +111,8 @@ class Othello(Game):
                     elif self.board[i][j]==3:
                         pygame.draw.circle(screen,(80,200,80),(j*100+50,i*100+50),35,2) # Basic circle to represent valid moves
                         self.board[i][j]=0 # Changing it back to 0 to not disturb the code for check_win
+                    elif self.board[i][j]==4:
+                        self.board[i][j]=0
             pygame.display.update() # Updates the board
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
