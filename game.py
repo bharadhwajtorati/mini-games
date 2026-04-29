@@ -1,4 +1,3 @@
-
 #importing necessary libraries
 import subprocess
 import pygame
@@ -8,16 +7,16 @@ import csv
 from datetime import datetime
 from matplotlib import pyplot as plt
 
-#creating a class for the game which will be inherited by all the games
+#Creating a class for the game which will be inherited by all the games
 class Game:
     def __init__(self,player1,player2,n):
         self.player1=player1
         self.player2=player2
         self.turn=player1
         
-        # initialising the board according to the game selected by the user
+        # Initializing the board according to the game selected by the user
         if n==1:
-            self.board=np.zeros((10,10),dtype=int)  #
+            self.board=np.zeros((10,10),dtype=int)
         elif n==2:
             self.board=np.zeros((7,7),dtype=int)
         else:
@@ -27,27 +26,27 @@ class Game:
             self.board[4,3]=1
             self.board[3,4]=1
          
-        #function to switch the turn of players 
+        # Function to switch the turn of players 
     def switch(self):
             self.turn=self.player1 if self.turn==self.player2 else self.player2     
 
-#function to record the results of game(win/loss) in history.csv file 
-#with the format : winner,loser,date_time,game_name
+#Function to record the results of the game (win/loss) in history.csv file 
+#With the format: winner, loser, date_time, game_name
 def record_results(un1,un2,gamename):
     with open("history.csv", "a", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([un1, un2, datetime.now().strftime("%Y-%m-%d %H:%M:%S"),gamename])
 
-#function to write text on the screen
+#Function to write text on the screen
 def write(screen,str, x, y, colour=(0,0,0), font_size=50):
         font = pygame.font.SysFont(None, font_size) 
         text = font.render(str, True,colour)  
         screen.blit(text,(x, y))  
 
-#stating interface for the menu of games         
+#Starting interface for the menu of games         
 def interface():
     
-    #initialising pygame and loading necessary images,scaling for the menu
+    #Initializing pygame and loading necessary images, scaling them for the menu
     pygame.init()
     menu=pygame.display.set_mode((1000,900))
     pygame.display.set_caption("Mini-Games")
@@ -55,7 +54,7 @@ def interface():
     background_image=pygame.transform.scale(background_image,(1000,900))
     tic_tac_toe_icon=pygame.image.load("media/Interface/tic-tac-toe_big.png").convert_alpha()
     tic_tac_toe_icon=pygame.transform.smoothscale(tic_tac_toe_icon,(290,290))
-    ttt_rect = tic_tac_toe_icon.get_rect(topleft=(32,475))
+    ttt_rect = tic_tac_toe_icon.get_rect(topleft=(32,475)) #Getting image rect for collision detection with mouse
     connect_four_icon=pygame.image.load("media/Interface/connect-four_big.png").convert_alpha()
     connect_four_icon=pygame.transform.smoothscale(connect_four_icon,(290,290))
     cf_rect = connect_four_icon.get_rect(topleft=(355,475))
@@ -71,38 +70,42 @@ def interface():
     game=0
     while running:
         
-        #displaying the menu and updating the display according to the mouse position for the hover effect on the game icons
+        #Displaying the menu and updating it based on mouse position for hover effects on game icons
         menu.blit(background_image, (0, 0))
         menu.blit(mini_game_bigicon,(145,30))
         Mpos=pygame.mouse.get_pos()
-        if ttt_rect.collidepoint(Mpos):
+        if ttt_rect.collidepoint(Mpos): #Mouse over Tic-Tac-Toe image
             menu.blit(pygame.transform.smoothscale(tic_tac_toe_icon,(300,300)),(27,470))
             menu.blit(connect_four_icon,(355,475))
             menu.blit(othello_icon,(678,475))
-        elif cf_rect.collidepoint(Mpos):
+        elif cf_rect.collidepoint(Mpos): #Mouse over Connect-Four image
             menu.blit(tic_tac_toe_icon,(32,475))
             menu.blit(pygame.transform.smoothscale(connect_four_icon,(300,300)),(350,470))
             menu.blit(othello_icon,(678,475))
-        elif othello_rect.collidepoint(Mpos):
+        elif othello_rect.collidepoint(Mpos): #Mouse over Othello image
             menu.blit(tic_tac_toe_icon,(32,475))
             menu.blit(connect_four_icon,(355,475))
             menu.blit(pygame.transform.smoothscale(othello_icon,(300,300)),(673,470))
-        else:
+        else:  #Mouse not on any image
             menu.blit(tic_tac_toe_icon,(32,475))
             menu.blit(connect_four_icon,(355,475))
             menu.blit(othello_icon,(678,475))
+            
+        #Writing game names
         write(menu,"Tic-Tac-Toe",74,770,colour=(255,255,51),font_size=50) 
         write(menu,"Connect-Four",385,770,colour=(255,255,51),font_size=50)
         write(menu,"Othello",770,770,colour=(255,255,51),font_size=50)
         pygame.display.update()
         
-        #responding to the mouse click events to launch the respective games and quitting the menu if the user clicks on the close button
+        #Handling mouse click events to launch respective games and closing menu if needed
         for event in pygame.event.get():
+            #Handling quit event
             if event.type == pygame.QUIT:
                 running = False
                 game = 4
                 print("Quitting menu")
                 break
+            #Handling left mouse click
             if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         x,y= event.pos
@@ -119,17 +122,19 @@ def interface():
                                 game=3
                                 running=False
                                 break
-    pygame.quit() #quitting before launching the game to use a single pygame window
-    return game   #returning the game selected by the user to launch the respective game in the main function
+    pygame.quit() #Closing menu before launching the game to reuse a single pygame window
+    return game   #Returning selected game option
 
-#ending interface for showing the winner 
-#and taking input for sorting the leaderboard according to wins/losses/win-loss ratio or quitting the leaderboard
+#Ending interface for showing the winner 
+#And taking input for sorting the leaderboard or skipping it
 def stats(winner):
     
-    #initialising pygame and creating the layout for the stats interface with hover effect on the sorting options
+    #Initializing pygame and setting up the stats interface with hover effects
     pygame.init()
     stats=pygame.display.set_mode((500,300))
     pygame.display.set_caption("Winner")
+    
+    #Creating rectangles for clickable sorting buttons
     rect1 = pygame.Rect(12, 180, 150, 60)
     rect_1=pygame.Rect(7, 178, 160, 64)
     rect2 = pygame.Rect(12+13+150, 180, 150, 60)
@@ -140,33 +145,33 @@ def stats(winner):
     sort=0
     while running:
         
-        #this part is resposible for the hover effect on the sorting options and updating the display accordingly
+        #Updating hover effects based on mouse position
         stats.fill((30, 30, 47))
         write(stats,f"WINNER : {winner}",65,40,(255,215,0))
         write(stats,"Click sorting option for leaderboard:",10,120,font_size=35,colour=(180,190,210))
         Mpos=pygame.mouse.get_pos()
-        if rect1.collidepoint(Mpos):
+        if rect1.collidepoint(Mpos): #Hover on Wins
             pygame.draw.rect(stats, (42-6,42-6,64-7), rect_1, border_radius=21)
             write(stats,"Wins",12+31,180+14,font_size=53,colour=(255,255,255))
             pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
             write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
             pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
             write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
-        elif rect2.collidepoint(Mpos):
+        elif rect2.collidepoint(Mpos): #Hover on Losses
             pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
             write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
             pygame.draw.rect(stats, (42-6,42-6,64-7), rect_2, border_radius=21)
             write(stats,"Losses",12+13+150+16,180+14,font_size=53,colour=(255,255,255))
             pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
             write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
-        elif rect3.collidepoint(Mpos):
+        elif rect3.collidepoint(Mpos): #Hover on Win/Loss
             pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
             write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
             pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
             write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
             pygame.draw.rect(stats, (42-6,42-6,64-7), rect_3, border_radius=21)
             write(stats,"Win/Loss",7+13+150+13+150+10,180+16,font_size=48,colour=(255,255,255))
-        else :
+        else:
             pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
             write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
             pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
@@ -174,7 +179,7 @@ def stats(winner):
             pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
             write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
             
-        #taking input from the mouse click events to sort the leaderboard according to wins/losses/win-loss ratio or quitting the leaderboard
+        #Handling click events for sorting selection or exit
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT :
@@ -199,12 +204,12 @@ def stats(winner):
                             running =False
                             break
     pygame.quit()
-    return sort   #returning the sorting option selected by the user     
+    return sort   
 
-#function to plot the stats of the players and games played using matplotlib
+#Function to plot player statistics and game distribution using matplotlib
 def plot_stats():
     
-    #getting the data from the history.csv file to pick the top 5 playes by wins and the distribution of games played
+    #Reading data from history.csv to compute top players and game distribution
     file=open("history.csv","r")
     wins={}
     counts={"TicTacToe":0,"Connect_Four":0,"Othello":0}
@@ -220,9 +225,11 @@ def plot_stats():
             counts[split[3]] += 1
     file.close()
     
-    #picking the top 5 players by wins and plotting the bar graph for top 5 players
+    #Selecting top 5 players by wins and plotting bar chart
     top5_players = list(sorted(wins.keys(), key=lambda x: wins[x], reverse=True))[:5]
     top5_wins = [wins[player] for player in top5_players]
+    
+    #Drawing plots
     plt.figure(figsize=(12, 6))
     plt.subplot(1,2,1)
     plt.bar(top5_players, top5_wins)
@@ -233,7 +240,7 @@ def plot_stats():
     x_labels=list(counts.keys())
     y_values=list(counts.values())
     
-    #plotting the pie chart for distribution of games played
+    #Plotting pie chart for game distribution
     plt.pie(y_values, labels=x_labels,autopct='%2.1f%%')
     plt.title("Distribution of Games Played")
     plt.suptitle("Plots of Wins and Game distribution")
@@ -241,17 +248,17 @@ def plot_stats():
     plt.show()
 
 def main():
-    #storing the names of 2 users
+    #Storing usernames of two players
     un1= sys.argv[1]
     un2= sys.argv[2]
     print(f"Welcome to The Gaming Hub {un1} and {un2}")
     print("Opening the menu of games")
     while True:
-        #showing the interface to choose the game 
+        #Displaying interface to choose a game
         variable= interface()
         winner = None
         
-        #running the respective game choosen and recording the results
+        #Launching selected game and recording results
         if variable == 1 :
             print("Launching Tic-Tac-Toe")
             from games.tic_tac_toe import TicTacToe
@@ -282,15 +289,15 @@ def main():
         elif variable== 4 :
             break
         
-        #getting the option to sort the leaderborard or skip leaderboard
+        #Getting sorting option for leaderboard or skipping it
         sort_option=stats((un1 if winner == 1 else un2 if winner==2 else "Tie" if winner==3 else None))
         
-        #running leaderloard.sh to show the leaderboard and showing plots
+        #Running leaderboard script and displaying plots if not skipped
         if sort_option != 4:
             subprocess.run(f"bash leaderboard.sh {sort_option}", shell=True)   
             plot_stats()
 
-        #asking do you want to play again or quit
+        #Asking user whether to replay or quit
         if input("do you want to play again(y/n)").lower() == "y" :
             continue
         else:
@@ -298,4 +305,3 @@ def main():
             break           
 
 if __name__=="__main__":   main()
-
