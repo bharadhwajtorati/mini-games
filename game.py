@@ -128,12 +128,11 @@ def interface():
 #Ending interface for showing the winner 
 #And taking input for sorting the leaderboard or skipping it
 def stats(winner):
-    
     #Initializing pygame and setting up the stats interface with hover effects
     pygame.init()
     stats=pygame.display.set_mode((500,300))
     pygame.display.set_caption("Winner")
-    
+
     #Creating rectangles for clickable sorting buttons
     rect1 = pygame.Rect(12, 180, 150, 60)
     rect_1=pygame.Rect(7, 178, 160, 64)
@@ -146,38 +145,51 @@ def stats(winner):
     while running:
         
         #Updating hover effects based on mouse position
-        stats.fill((30, 30, 47))
-        write(stats,f"WINNER : {winner}",65,40,(255,215,0))
-        write(stats,"Click sorting option for leaderboard:",10,120,font_size=35,colour=(180,190,210))
+        stats.fill((10, 15, 20))  # Dark background
+        write(stats,f"WINNER : {winner}",65,40,(180, 255, 80))  # Neon green
+        write(stats,"Click sorting option for leaderboard:",10,120,font_size=35,colour=(120, 220, 200))  # Cyan
+        
         Mpos=pygame.mouse.get_pos()
+        
         if rect1.collidepoint(Mpos): #Hover on Wins
-            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_1, border_radius=21)
-            write(stats,"Wins",12+31,180+14,font_size=53,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
-            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
-            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+            pygame.draw.rect(stats, (40, 120, 90), rect_1, border_radius=21)  # Glow
+            write(stats,"Wins",12+31,180+14,font_size=53,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(200,255,200))
+        
         elif rect2.collidepoint(Mpos): #Hover on Losses
-            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
-            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_2, border_radius=21)
-            write(stats,"Losses",12+13+150+16,180+14,font_size=53,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
-            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+            pygame.draw.rect(stats, (20, 40, 50), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (40, 120, 90), rect_2, border_radius=21)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=53,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(200,255,200))
+        
         elif rect3.collidepoint(Mpos): #Hover on Win/Loss
-            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
-            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
-            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42-6,42-6,64-7), rect_3, border_radius=21)
-            write(stats,"Win/Loss",7+13+150+13+150+10,180+16,font_size=48,colour=(255,255,255))
+            pygame.draw.rect(stats, (20, 40, 50), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (40, 120, 90), rect_3, border_radius=21)
+            write(stats,"Win/Loss",7+13+150+13+150+10,180+16,font_size=48,colour=(200,255,200))
+        
         else:
-            pygame.draw.rect(stats, (42,42,64), rect1, border_radius=20)
-            write(stats,"Wins",12+31,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect2, border_radius=20)
-            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(255,255,255))
-            pygame.draw.rect(stats, (42,42,64), rect3, border_radius=20)
-            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(255,255,255))
+            pygame.draw.rect(stats, (20, 40, 50), rect1, border_radius=20)
+            write(stats,"Wins",12+31,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect2, border_radius=20)
+            write(stats,"Losses",12+13+150+16,180+14,font_size=50,colour=(200,255,200))
+            
+            pygame.draw.rect(stats, (20, 40, 50), rect3, border_radius=20)
+            write(stats,"Win/Loss",12+13+150+13+150+10,180+16,font_size=45,colour=(200,255,200))
             
         #Handling click events for sorting selection or exit
         pygame.display.update()
@@ -203,6 +215,7 @@ def stats(winner):
                             sort = 3
                             running =False
                             break
+
     pygame.quit()
     return sort   
 
