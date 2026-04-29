@@ -250,11 +250,12 @@ def plot_stats():
     plt.ylabel("Number of Wins")
     plt.title("Top 5 Players by Wins")
     plt.subplot(1,2,2)
-    x_labels=list(counts.keys())
-    y_values=list(counts.values())
     
     #Plotting pie chart for game distribution
-    plt.pie(y_values, labels=x_labels,autopct='%2.1f%%')
+    filtered = [(k, v) for k, v in counts.items() if v > 0]
+    x_labels = [k for k, v in filtered]
+    y_values = [v for k, v in filtered]
+    plt.pie(y_values, labels=x_labels, autopct='%2.1f%%')
     plt.title("Distribution of Games Played")
     plt.suptitle("Plots of Wins and Game distribution")
     plt.tight_layout()
