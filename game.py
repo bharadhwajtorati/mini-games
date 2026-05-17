@@ -227,7 +227,10 @@ def plot_stats():
     wins={}
     counts={"TicTacToe":0,"Connect_Four":0,"Othello":0}
     for line in file:
+        if line.strip()=="":
+            continue
         split=line.strip().split(",")
+        print(split)
         winner=split[0]
         wins[winner] = wins.get(winner, 0) + 1
         if split[3]=="TicTacToe":
@@ -318,4 +321,5 @@ def main():
             print("Quitting menu")
             break           
 
-if __name__=="__main__":   main()
+if __name__=="__main__":   
+    main()
